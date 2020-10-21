@@ -14,9 +14,8 @@ const StudentSchema = new mongoose.Schema({
         enum: ['Male','Female'],
         required: [true, 'Please choose a gender'],
     },
-    studentSubjects: {
+    studentSubjects: { 
         type: [String],
-        required: [true, 'Please add Subjects'],
     },
     isScholarship: {
         type: Boolean,
