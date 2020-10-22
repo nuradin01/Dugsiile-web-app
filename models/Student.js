@@ -24,6 +24,10 @@ const StudentSchema = new mongoose.Schema({
     joined: {
         type: Date,
         default: Date.now,
+    },
+    left: {
+        type: Date,
+        default: null,
     }
 
   
