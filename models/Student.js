@@ -17,6 +17,7 @@ const StudentSchema = new mongoose.Schema({
     studentSubjects: { 
         type: [String],
     },
+    fee: Number,
     isScholarship: {
         type: Boolean,
         default: false

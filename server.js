@@ -13,6 +13,7 @@ connectDB();
 
 // Route files
 const students = require('./routes/students');
+const fees = require('./routes/fees');
 
 
 const app = express();
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 
 //Mount routers
 app.use('/api/v1/students', students);
+app.use('/api/v1/fees', fees);
 
 
 app.use(errorHandler);
