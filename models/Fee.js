@@ -25,10 +25,5 @@ const FeeSchema = new mongoose.Schema({
   
 });
 
-// Create balance from the amountCharged and amountPaid
-FeeSchema.pre('save', function (next) {
-    this.balance = this.amountCharged
-    next();
-  });
 
 module.exports = mongoose.model('Fee', FeeSchema);
