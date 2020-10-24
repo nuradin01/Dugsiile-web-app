@@ -3,6 +3,14 @@ const Fee = require('../models/Fee');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
+
+// @desc            Get all Unpaid fees
+// @route           GET /api/v1/fees
+// @access          private
+exports.getUnpaidFees = asyncHandler(async (req, res, next) => {
+  res.status(200).json(res.advancedResults);
+});
+
 // @desc            Charge All Paid Students
 // @route           POST /api/v1/fees
 // @access          Private
@@ -49,10 +57,10 @@ exports.chargeStudent = asyncHandler(async (req, res, next) => {
 // @route           PUT /api/v1/fees/:id
 // @access          Private
 exports.receivePayment = asyncHandler(async (req, res, next) => {
-  let fee = await Fee.findById(req.params.id);
+  let fee = await Fee.findOne({student:req.params.id, paidAt: null});
   if (!fee) {
     return next(
-      new ErrorResponse(`Fee not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(`This Student have paid all fees`, 404)
     );
   }
 
@@ -67,7 +75,7 @@ exports.receivePayment = asyncHandler(async (req, res, next) => {
   // }
   req.body.balance = fee.amountCharged - req.body.amountPaid
 
-  fee = await Fee.findByIdAndUpdate(req.params.id, req.body, {
+  fee = await Fee.findByIdAndUpdate(fee._id, req.body, {
     new: true,
     runValidators: true,
   });

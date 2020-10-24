@@ -11,7 +11,7 @@ const StudentSchema = new mongoose.Schema({
     studentPhone: String,
     gender: {
         type: String,
-        enum: ['Male','Female'],
+        enum: ['Male','Female', 'male', 'female'],
         required: [true, 'Please choose a gender'],
     },
     studentSubjects: { 
@@ -22,11 +22,11 @@ const StudentSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    joined: {
+    joinedAt: {
         type: Date,
         default: Date.now,
     },
-    left: {
+    leftAt: {
         type: Date,
         default: null,
     }

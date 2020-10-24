@@ -1,9 +1,12 @@
 const express = require('express');
-const { chargeAllPaidStudents, chargeStudent, receivePayment } = require('../controllers/fees');
+const { chargeAllPaidStudents, chargeStudent, receivePayment, getUnpaidFees } = require('../controllers/fees');
+
+const Fee = require('../models/Fee')
+const advancedResults = require('../middleware/advancedResults');
 
 const router = express.Router();
 
-router.route('/').post(chargeAllPaidStudents);
+router.route('/').get(advancedResults(Fee), getUnpaidFees).post(chargeAllPaidStudents);
 router.route('/:id').post(chargeStudent).put(receivePayment);
 
 module.exports = router;
