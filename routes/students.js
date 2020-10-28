@@ -3,9 +3,11 @@ const { addStudent, getStudents, getStudent, updateStudent, deleteStudent } = re
 
 const Student = require('../models/Student')
 const advancedResults = require('../middleware/advancedResults');
-
+const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
+router.use(protect);
+router.use(authorize('user', 'admin'));
 
 router.route('/').get(advancedResults(Student), getStudents).post(addStudent);
 

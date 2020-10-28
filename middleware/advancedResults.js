@@ -17,9 +17,11 @@ const advancedResults = (model, populate) => async (req, res, next) => {
       /\b(gt|gte|lt|lte|in)\b/g,
       (match) => `$${match}`
     );
-  
+  queryStr = JSON.parse(queryStr)
+  queryStr.user = req.user.id
+  console.log(queryStr)
     // Finding resources
-    query = model.find(JSON.parse(queryStr));
+    query = model.find(queryStr);
   
     // Select Fields
     if (req.query.select) {

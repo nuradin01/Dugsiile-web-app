@@ -4,10 +4,10 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
 
-// @desc            Get all Unpaid fees
+// @desc            Get all fees for a user
 // @route           GET /api/v1/fees
 // @access          private
-exports.getUnpaidFees = asyncHandler(async (req, res, next) => {
+exports.getFees = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResults);
 });
 
@@ -15,20 +15,19 @@ exports.getUnpaidFees = asyncHandler(async (req, res, next) => {
 // @route           POST /api/v1/fees
 // @access          Private
 exports.chargeAllPaidStudents = asyncHandler(async (req, res, next) => {
-  const students = await Student.find({ isScholarship: false, left: null });
+  const students = await Student.find({ isScholarship: false, leftAt: null, user: req.user.id });
   let fees = await students.map((student) => {
     const feeToCharge = {
       balance:student.fee,
       student: student._id,
+      user: req.user.id,
       amountCharged: student.fee,
     };
     return Fee.create(feeToCharge);
   });
-  // // Add student to req.body
-  // req.body.student = students._id;
-  // const student = await Student.create(req.body);
+ 
   fees = await Promise.all(fees);
-  console.log(fees);
+ 
   res.status(201).json({ success: true, count: fees.length, data: fees });
 });
 // @desc            Charge Single Student
@@ -43,9 +42,19 @@ exports.chargeStudent = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Make sure user is the student's teacher
+  if (student.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse(
+        `User with Id of  ${req.params.id} is not authorized to charge this student`,
+        401
+      )
+    );
+  }
   const feeToCharge = {
     balance:student.fee,
     student: student._id,
+    user: req.user.id,
     amountCharged: student.fee,
   };
   const fee = await Fee.create(feeToCharge);
@@ -64,15 +73,15 @@ exports.receivePayment = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is the bootcamp owner
-  // if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
-  //   return next(
-  //     new ErrorResponse(
-  //       `User with Id of  ${req.params.id} is not authorized to update this bootcamp`,
-  //       401
-  //     )
-  //   );
-  // }
+  // Make sure user is the student's teacher
+  if (fee.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse(
+        `User with Id of  ${req.params.id} is not authorized to receive a fee from this student`,
+        401
+      )
+    );
+  }
   req.body.balance = fee.amountCharged - req.body.amountPaid
 
   fee = await Fee.findByIdAndUpdate(fee._id, req.body, {

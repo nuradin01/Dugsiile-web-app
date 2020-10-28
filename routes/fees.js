@@ -1,18 +1,21 @@
 const express = require('express');
-const { chargeAllPaidStudents, chargeStudent, receivePayment, getUnpaidFees } = require('../controllers/fees');
+const { chargeAllPaidStudents, chargeStudent, receivePayment, getFees } = require('../controllers/fees');
 
 const Fee = require('../models/Fee')
 const advancedResults = require('../middleware/advancedResults');
-
+const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
+
+router.use(protect);
+router.use(authorize('user', 'admin'));
 
 router.route('/').get(
     advancedResults(Fee, {
       path: 'student',
       select: 'name',
     }),
-    getUnpaidFees
+    getFees
   ).post(chargeAllPaidStudents);
 router.route('/:id').post(chargeStudent).put(receivePayment);
 

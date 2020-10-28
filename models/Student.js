@@ -29,7 +29,12 @@ const StudentSchema = new mongoose.Schema({
     leftAt: {
         type: Date,
         default: null,
-    }
+    },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true,
+      },
 
   
 });

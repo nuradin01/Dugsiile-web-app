@@ -3,7 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
 
-// @desc            Get all Students
+// @desc            Get all Students for a user
 // @route           GET /api/v1/students
 // @access          Private
 exports.getStudents = asyncHandler(async (req, res, next) => {
@@ -22,6 +22,15 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Student not found with id of ${req.params.id}`, 404)
       );
     }
+    // Make sure user is the student's teacher
+  if (student.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse(
+        `User with Id of  ${req.params.id} is not authorized to view this student`,
+        401
+      )
+    );
+  }
     res.status(200).json({ success: true, data: student });
   });
 
@@ -30,7 +39,8 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
 // @access          Private
 exports.addStudent = asyncHandler(async (req, res, next) => {
     // Add user to req.body
-    // req.body.user = req.user.id;
+    req.body.user = req.user.id;
+    console.log(req.body.user)
     const student = await Student.create(req.body);
   
     res.status(201).json({ success: true, data: student });
@@ -47,15 +57,15 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is the bootcamp owner
-  // if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
-  //   return next(
-  //     new ErrorResponse(
-  //       `User with Id of  ${req.params.id} is not authorized to update this bootcamp`,
-  //       401
-  //     )
-  //   );
-  // }
+  // Make sure user is the student's teacher
+  if (student.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse(
+        `User with Id of  ${req.params.id} is not authorized to update this student`,
+        401
+      )
+    );
+  }
 
   student = await Student.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -75,15 +85,15 @@ exports.deleteStudent = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`Student not found with id of ${req.params.id}`, 404)
     );
   }
-  // Make sure user is the bootcamp owner
-  // if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
-  //   return next(
-  //     new ErrorResponse(
-  //       `User with Id of  ${req.params.id} is not authorized to delete this bootcamp`,
-  //       401
-  //     )
-  //   );
-  // }
+   // Make sure user is the student's teacher
+   if (student.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse(
+        `User with Id of  ${req.params.id} is not authorized to delete this student`,
+        401
+      )
+    );
+  }
 
   student.remove();
   res.status(200).json({ success: true, data: {} });

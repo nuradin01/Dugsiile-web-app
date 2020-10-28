@@ -6,6 +6,11 @@ const FeeSchema = new mongoose.Schema({
         ref: 'Student',
         required: true,
       },
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true,
+      },
     amountCharged: {
         type: Number,
         required: true,
