@@ -1,0 +1,61 @@
+import { REGISTER_SCHOOL, REGISTER_SCHOOL_ERROR, UPDATE_USER,USER_ERROR, REGISTER_USER, REGISTER_USER_FAIL } from '../actions/types';
+
+const initialState = {
+  token: null,
+  isAuthenticated: null,
+  isRegisteredSchool: null,
+  loading: false,
+  user: null,
+  school: '',
+  schoolSubjects: [],
+  error: null,
+};
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case REGISTER_USER:
+      console.log(action.payload.token)
+        localStorage.setItem('token', action.payload.token);
+        return {
+          ...state,
+          ...action.payload,
+          isAuthenticated: true,
+          loading: false,
+        };
+        case REGISTER_USER_FAIL:
+          localStorage.removeItem('token');
+          console.log(action.payload)
+          return {
+            ...state,
+            token: null,
+            isAuthenticated: false,
+            loading: false,
+            user: null,
+            error: action.payload,
+          };
+    case REGISTER_SCHOOL:
+      return {
+        ...state,
+        school: action.payload.school,
+        schoolSubjects: action.payload.subjects,
+        loading: false,
+        isRegisteredSchool: true,
+      };
+      case UPDATE_USER:
+        return {
+          ...state,
+        user:  action.payload
+         
+       
+        };
+    case REGISTER_SCHOOL_ERROR:
+    case USER_ERROR:
+      console.error(action.payload);
+      return {
+        ...state,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};

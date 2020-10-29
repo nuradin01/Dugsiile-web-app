@@ -34,6 +34,22 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, data: student });
   });
 
+ // @desc            Get current students
+// @route           GET /api/v1/students/current
+// @access          Private
+exports.getCurrentStudents = asyncHandler(async (req, res, next) => {
+  const students = await Student.find({user:req.user.id, leftAt: null});
+
+  // if the format of the ID is correct but not in database
+  if (!students) {
+    return next(
+      new ErrorResponse(`You have not any students`, 404)
+    );
+  }
+
+  res.status(200).json({ success: true, count: students.length,data: students });
+});
+
 // @desc            Add Student
 // @route           POST /api/v1/students
 // @access          Private
