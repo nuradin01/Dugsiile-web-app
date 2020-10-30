@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,12 +10,14 @@ import {registerUser} from '../../actions/userActions'
 
 toast.configure();
 
-const Register = ({registerUser}) => {
+const Register = ({registerUser, loadUser, history,userState:{isAuthenticated}}) => {
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [gender, setGender] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
 const onSubmit = (e) => {
   e.preventDefault()
   if (name === '' || email==='' || gender === '' || password === '' || confirmPassword=== ''){
@@ -43,6 +45,13 @@ const onSubmit = (e) => {
 registerUser(signupData)
   }
 }
+
+useEffect(() => {
+  if (isAuthenticated) {
+    history.push('/school');
+  }
+  // eslint-disable-next-line
+}, [isAuthenticated, history])
   return (
     <>
       <div className="form-container sign-up-container">
@@ -145,6 +154,12 @@ registerUser(signupData)
   );
 };
 Register.propTypes = {
+  isAuthenticated: PropTypes.bool,
   registerUser: PropTypes.func.isRequired,
+
 } 
-export default connect (null, {registerUser})(Register);
+
+const mapStateToProps = (state) => ({
+  userState: state.userState,
+})
+export default connect (mapStateToProps, {registerUser})(Register);

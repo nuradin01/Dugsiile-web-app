@@ -12,4 +12,6 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const USER_ERROR = 'USER_ERROR';
 export const REGISTER_USER = 'REGISTER_USER';
 export const REGISTER_USER_FAIL = 'REGISTER_USER_FAIL';
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_ERROR = 'AUTH_ERROR';
 

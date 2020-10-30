@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+
+
+
+
 const Sidebar = ({ userState: { user, school } }) => {
   useEffect(() => {
     const script5 = document.createElement('script');
@@ -10,6 +15,9 @@ const Sidebar = ({ userState: { user, school } }) => {
 
     // eslint-disable-next-line
   }, []);
+  if(user === null || user === {}){
+return <p>loading</p>
+  }
   return (
     <>
       <div>
@@ -68,7 +76,11 @@ const Sidebar = ({ userState: { user, school } }) => {
     </>
   );
 };
+Sidebar.propTypes = {
 
+  user: PropTypes.object,
+  school: PropTypes.string,
+}
 const mapStateToProps = (state) => ({
   userState: state.userState,
 });

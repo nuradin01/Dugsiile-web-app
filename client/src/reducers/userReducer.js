@@ -1,4 +1,4 @@
-import { REGISTER_SCHOOL, REGISTER_SCHOOL_ERROR, UPDATE_USER,USER_ERROR, REGISTER_USER, REGISTER_USER_FAIL } from '../actions/types';
+import {SET_LOADING, REGISTER_SCHOOL, REGISTER_SCHOOL_ERROR, UPDATE_USER,USER_ERROR, REGISTER_USER, REGISTER_USER_FAIL, USER_LOADED, AUTH_ERROR } from '../actions/types';
 
 const initialState = {
   token: null,
@@ -13,6 +13,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        user: action.payload.data,
+      };
     case REGISTER_USER:
       console.log(action.payload.token)
         localStorage.setItem('token', action.payload.token);
@@ -23,6 +30,7 @@ export default (state = initialState, action) => {
           loading: false,
         };
         case REGISTER_USER_FAIL:
+        case AUTH_ERROR:
           localStorage.removeItem('token');
           console.log(action.payload)
           return {
@@ -54,6 +62,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+      case SET_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;
