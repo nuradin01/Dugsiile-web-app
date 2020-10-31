@@ -1,8 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from '../layout/Header';
 import Sidebar from '../layout/Sidebar';
 import Dashboard from '../dashboard/Dashboard';
-const Home = () => {
+import Loader from '../students/Loader'
+import {connect} from 'react-redux'
+
+import {loadUser} from '../../actions/userActions'
+
+const Home = ({loadUser, userState:{loading, user}}) => {
+  useEffect(() => {
+    loadUser()
+     // eslint-disable-next-line 
+  }, [])  
+
+  
+  if (loading || user === null || user==={}) {
+    return <Loader />;
+  }
   return (
     <>
       <Header />
@@ -12,4 +26,8 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps =(state) => ({
+  userState: state.userState
+})
+
+export default connect(mapStateToProps, {loadUser})(Home);

@@ -5,8 +5,7 @@ import PropTypes from 'prop-types'
 
 
 
-
-const Sidebar = ({ userState: { user, school } }) => {
+const Sidebar = ({ userState: { user }, }) => {
   useEffect(() => {
     const script5 = document.createElement('script');
     script5.src = 'js/main.js';
@@ -15,9 +14,7 @@ const Sidebar = ({ userState: { user, school } }) => {
 
     // eslint-disable-next-line
   }, []);
-  if(user === null || user === {}){
-return <p>loading</p>
-  }
+ 
   return (
     <>
       <div>
@@ -36,11 +33,7 @@ return <p>loading</p>
                   : user.name.slice(0, 16) + '...'}
               </p>
               <p className="app-sidebar__user-designation">
-                {school && school.length <= 16
-                  ? school
-                  : school.length > 16
-                  ? school.slice(0, 16) + '...'
-                  : ''}
+                {user.role}
               </p>
             </div>
           </div>
@@ -77,9 +70,8 @@ return <p>loading</p>
   );
 };
 Sidebar.propTypes = {
-
   user: PropTypes.object,
-  school: PropTypes.string,
+
 }
 const mapStateToProps = (state) => ({
   userState: state.userState,

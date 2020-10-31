@@ -101,6 +101,7 @@ exports.registerSchool = asyncHandler(async (req, res, next) => {
   const fieldsToUpdate = {
     school: req.body.school,
     schoolSubjects: req.body.schoolSubjects,
+    isRegisteredSchool:req.body.isRegisteredSchool
   };
   const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
     new: true,

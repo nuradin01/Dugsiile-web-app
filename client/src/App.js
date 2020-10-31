@@ -9,11 +9,19 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import RegisterSchool from './components/school/RegisterSchool'
 import UserPage from './components/pages/UserPage'
+import setAuthToken from './utils/setAuthToken';
 import { Provider } from 'react-redux';
+
 import store from './store';
 
 import './App.css';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = () => {
+  
   return (
     <Provider store={store}>
       <Router>

@@ -4,7 +4,7 @@ import SchoolForm from './SchoolForm';
 import {connect} from 'react-redux'
 import SchoolCard from './SchoolCard';
 
-const School = ({userState}) => {
+const School = ({userState: {user}}) => {
   const [showForm, setShowForm] = useState(false)
 
   
@@ -13,7 +13,7 @@ const School = ({userState}) => {
       <div className="app-title">
         <div>
           <h1>
-            <i className="fa fa-th-list" /> &nbsp; {userState.isRegisteredSchool ? 'Your school' : 'Register Your School'}
+            <i className="fa fa-th-list" /> &nbsp; {user.isRegisteredSchool ? 'Your school' : 'Register Your School'}
           </h1>
         </div>
         <ul className="app-breadcrumb breadcrumb side">
@@ -29,9 +29,9 @@ const School = ({userState}) => {
       <div className="row">
         <div className="col-md-12">
           <div className="tile">
-          {userState.isRegisteredSchool &&
+          {user.isRegisteredSchool &&
           <div className="tile-title-w-btn">
-        <h3 className="title"> {userState.school} </h3>
+        <h3 className="title"> {user.school} </h3>
         <div className="btn-group">
           <a className="btn btn-outline-warning" href="#!" onClick={() => setShowForm(true)}>
             <i className="fa fa-lg fa-edit"></i>
@@ -41,7 +41,7 @@ const School = ({userState}) => {
       </div>
 }
             <div className="tile-body ">
-              {!userState.isRegisteredSchool || showForm ? <SchoolForm showForm={showForm} setShowForm={setShowForm}/>  : <SchoolCard userState={userState}  />}
+              {!user.isRegisteredSchool || showForm ? <SchoolForm showForm={showForm} setShowForm={setShowForm}/>  : <SchoolCard user={user}  />}
               
             </div>
           </div>

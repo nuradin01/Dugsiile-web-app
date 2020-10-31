@@ -27,7 +27,8 @@ const SchoolForm = ({ registerSchool, userState, showForm, setShowForm } ) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
+    const test = subjectFields.map(subject => subject.subject)
+console.log(test)
     registerSchool(school, subjectFields);
     setSchool('');
     setShowForm(false)

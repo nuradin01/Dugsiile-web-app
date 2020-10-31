@@ -3,15 +3,11 @@ import {connect} from 'react-redux'
 import Header from '../layout/Header';
 import Sidebar from '../layout/Sidebar';
 import School from '../school/School';
-import setAuthToken from '../../utils/setAuthToken';
 import Loader from '../students/Loader'
 import PropTypes from 'prop-types'
 
 import {loadUser} from '../../actions/userActions'
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
 
 const SchoolPage = ({userState: {loading, user}, loadUser}) => {
   useEffect(() => {

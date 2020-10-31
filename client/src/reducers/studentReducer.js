@@ -19,9 +19,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_STUDENTS:
+      console.log(action.payload.data)
       return {
         ...state,
-        students: action.payload,
+        students: action.payload.data,
         loading: false,
       };
     case ADD_STUDENT:

@@ -150,7 +150,7 @@ const User = ({ userState: { user, school }, updateUser }) => {
 };
 
 User.propTypes = {
-userState: PropTypes.array,
+user: PropTypes.object,
 updateUser: PropTypes.func,
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SchoolCard = ({
-  userState: { isRegisteredSchool, user, schoolSubjects, school }
+  user: { isRegisteredSchool, name, schoolSubjects, school }
 }) => {
 
 
@@ -12,7 +12,7 @@ const SchoolCard = ({
         <div className="col-md-6">
           <h5>School Information</h5>
           <p>
-            <strong>Owner: &nbsp;</strong> {user.name}
+            <strong>Owner: &nbsp;</strong> {name}
           </p>
 
           <p>
@@ -20,7 +20,7 @@ const SchoolCard = ({
             {schoolSubjects &&
               schoolSubjects.map((schoolSubject, index) => (
                 <span key={index}>
-                  {`${index + 1} . ${schoolSubject.subject}`} <br />
+                  {`${index + 1} . ${schoolSubject}`} <br />
                 </span>
               ))}
           </p>

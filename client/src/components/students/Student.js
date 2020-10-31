@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 const Student = ({ student, setCurrent }) => {
   const {
-    studentName,
+    name,
     parentName,
     parentPhone,
     fee,
@@ -16,12 +16,12 @@ const Student = ({ student, setCurrent }) => {
   return (
     <>
       <tr>
-        <td>{studentName}</td>
+        <td>{name}</td>
         <td>{parentName}</td>
         <td>{parentPhone ? parentPhone : 'N/A'}</td>
         <td>{fee}</td>
         <td>
-          {isPaid === 0 && !isScholarship ? (
+          {!isPaid  && !isScholarship ? (
             <i className="fa fa-times fa-2x  text-danger"></i>
           ) : (
             <i className="fa fa-check fa-2x text-primary" />
@@ -40,6 +40,7 @@ const Student = ({ student, setCurrent }) => {
             
           </div>
         </td>
+       
       </tr>
     </>
   );

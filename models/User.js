@@ -45,6 +45,10 @@ const UserSchema = new mongoose.Schema({
   schoolSubjects: {
     type: [String]
   },
+  isRegisteredSchool: {
+    type: Boolean,
+    default:false
+  },
   joinedAt: {
     type: Date,
     default: Date.now,

@@ -12,9 +12,10 @@ import Loader from './Loader';
 
 const Students = ({
   studentsState: { students, loading },
-  userState: { isRegisteredSchool, schoolSubjects },
+  userState: {user },
   getStudents,
 }) => {
+  const {isRegisteredSchool, schoolSubjects} = user
   useEffect(() => {
     getStudents();
 
@@ -78,20 +79,20 @@ const Students = ({
                     <th>Phone</th>
                     <th>Fee</th>
                     <th>Paid</th>
-                    <th />
+                    <th> </th>
                   </tr>
                 </thead>
                 <tbody>
                   {!loading && students.length === 0 && students !== null ? (
                     <tr>
                       <td align="center" colSpan="6">
-                        {' '}
+                        
                         You have not registered any students yet!
                       </td>
                     </tr>
                   ) : (
                     students.map((student) => (
-                      <Student key={student.id} student={student} />
+                      <Student key={student._id} student={student} />
                     ))
                   )}
                 </tbody>
