@@ -17,6 +17,7 @@ const Students = ({
 }) => {
   const {isRegisteredSchool, schoolSubjects} = user
   useEffect(() => {
+    
     getStudents();
 
     // eslint-disable-next-line

@@ -54,7 +54,11 @@ const AddModal = ({ isRegisteredSchool, schoolSubjects, addStudent }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addStudent({ ...student, studentSubjects, isScholarship });
+    const newStudent = {
+      name: studentName, parentName, parentPhone, studentPhone, fee, isScholarship, studentSubjects: studentSubjects.map(subject => subject.value), gender: student.gender
+    }
+   
+    addStudent(newStudent);
     setStudent({
       studentName: '',
       parentName: '',
@@ -188,7 +192,7 @@ const AddModal = ({ isRegisteredSchool, schoolSubjects, addStudent }) => {
                 <Select
                   theme={customTheme}
                   options={schoolSubjects.map((subject) => {
-                    return { value: subject.subject, label: subject.subject };
+                    return { value: subject, label: subject };
                   })}
                   isMulti
                   placeholder="Select subjects"

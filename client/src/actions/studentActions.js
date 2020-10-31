@@ -8,7 +8,6 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
 } from './types';
-import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios'
 
 // Get students from server
@@ -30,17 +29,22 @@ export const getStudents = () => async (dispatch) => {
 
 // Add new student
 export const addStudent = (student) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   try {
     setLoading();
-    const id = uuidv4();
+    const res = await axios.post('http://localhost:5000/api/v1/students', student, config);
     dispatch({
       type: ADD_STUDENT,
-      payload: { id, ...student },
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: STUDENT_ERROR,
-      payload: 'add student error',
+      payload: err.response.data.error,
     });
   }
 };

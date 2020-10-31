@@ -62,7 +62,7 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
         <div className="col-md-12">
           <div className="tile">
             <div className="tile-title-w-btn">
-              <h3 className="title"> {current.studentName} </h3> 
+              <h3 className="title"> {current.name} </h3> 
             <div className="btn-group">
                 <a
                   className="btn btn-outline-warning"
@@ -150,7 +150,7 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
                   <h5>Subjects</h5>
                   {current.studentSubjects.map((subject, index) => (
                     <span key={index}>
-                      {subject.value ? subject.value : subject} <br />
+                      {subject} <br />
                     </span>
                   ))}
                 </div>
