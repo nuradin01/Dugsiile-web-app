@@ -1,12 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import {connect } from 'react-redux'
 import './auth.css';
+import PropTypes from 'prop-types';
 
-const Login = () => {
+import {login} from '../../actions/userActions'
+
+const Login = ({login, history, isAuthenticated }) => {
+
+const [loginData, setLoginData] = useState({
+  email:'',
+  password:''
+})
+const onChange = (e) =>
+setLoginData({ ...loginData, [e.target.name]: e.target.value });
+
+const onSubmit = (e) => {
+  e.preventDefault()
+  login(loginData)
+}
+
+useEffect(() => {
+  if (isAuthenticated) {
+    history.push('/school');
+  }
+  // eslint-disable-next-line
+}, [isAuthenticated, history])
+
   return (
     <>
       <div className="form-container sign-in-container">
-        <form action="#" className="loginform">
+        <form action="#" className="loginform" onSubmit={onSubmit}>
           <h1>Sign in</h1>
           <div className="social-container">
             <a href="#!" className="social">
@@ -21,17 +45,23 @@ const Login = () => {
           </div>
           <span>or use your account</span>
           <input
+          name='email'
+          value={loginData.email}
+          onChange={onChange}
             type="email"
             placeholder="Email"
             className="logininput form-control"
           />
           <input
+            name='password'
+            value={loginData.password}
+            onChange={onChange}
             type="password"
             placeholder="Password"
             className="logininput form-control"
           />
           <a href="#!">Forgot your password?</a>
-          <button id="signIn" className="btn btn-primary btn-lg mt-2">
+          <button id="signIn" className="btn btn-primary btn-lg mt-2" type='submit'>
             Sign In
           </button>
           <div className="utility mt-4">
@@ -64,4 +94,12 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+}
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.userState.isAuthenticated,
+})
+export default connect(mapStateToProps, {login})(Login);

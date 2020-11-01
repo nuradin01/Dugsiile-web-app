@@ -1,8 +1,18 @@
-import { REGISTER_SCHOOL_SUCCESS, REGISTER_SCHOOL_ERROR, SET_LOADING, UPDATE_USER, USER_ERROR, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, USER_LOADED, AUTH_ERROR } from './types';
-import axios from 'axios'
+import {
+  REGISTER_SCHOOL_SUCCESS,
+  REGISTER_SCHOOL_ERROR,
+  SET_LOADING,
+  UPDATE_USER,
+  USER_ERROR,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_FAIL,
+  LOGIN_SUCCESS,
+  USER_LOADED,
+  LOGIN_ERROR,
+  AUTH_ERROR,
+} from './types';
+import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-
-
 
 // Register new user
 export const registerUser = (signupData) => async (dispatch) => {
@@ -13,18 +23,47 @@ export const registerUser = (signupData) => async (dispatch) => {
   };
   try {
     setLoading();
-    const res = await axios.post('http://localhost:5000/api/v1/auth/register', signupData, config);
+    const res = await axios.post(
+      'http://localhost:5000/api/v1/auth/register',
+      signupData,
+      config
+    );
     dispatch({
       type: REGISTER_USER_SUCCESS,
-      payload: res.data
+      payload: res.data,
     });
 
-    loadUser()
-    
   } catch (err) {
     dispatch({
       type: REGISTER_USER_FAIL,
-      payload: err.response.data.error
+      payload: err.response.data.error,
+    });
+  }
+};
+
+// Login user
+export const login = (loginData) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    setLoading();
+    const res = await axios.post(
+      'http://localhost:5000/api/v1/auth/login',
+      loginData,
+      config
+    );
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data,
+    });
+
+  } catch (err) {
+    dispatch({
+      type: LOGIN_ERROR,
+      payload: err.response.data.error,
     });
   }
 };
@@ -43,7 +82,7 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload:err.response.data.error});
+    dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
   }
 };
 
@@ -54,20 +93,26 @@ export const registerSchool = (school, subjects) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-  const schoolSubjects = subjects.map(subject => subject.subject)
-  const isRegisteredSchool = true
-const schoolInfo ={
-  school, schoolSubjects, isRegisteredSchool
-}
+  const schoolSubjects = subjects.map((subject) => subject.subject);
+  const isRegisteredSchool = true;
+  const schoolInfo = {
+    school,
+    schoolSubjects,
+    isRegisteredSchool,
+  };
   try {
     setLoading();
 
-    const res = await axios.put('http://localhost:5000/api/v1/auth/registerschool', schoolInfo, config);
+    const res = await axios.put(
+      'http://localhost:5000/api/v1/auth/registerschool',
+      schoolInfo,
+      config
+    );
     dispatch({
       type: REGISTER_SCHOOL_SUCCESS,
       payload: res.data,
     });
-    loadUser()
+    loadUser();
   } catch (err) {
     dispatch({
       type: REGISTER_SCHOOL_ERROR,
