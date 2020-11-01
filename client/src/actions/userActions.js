@@ -10,6 +10,7 @@ import {
   USER_LOADED,
   LOGIN_ERROR,
   AUTH_ERROR,
+  LOGOUT
 } from './types';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
@@ -66,6 +67,13 @@ export const login = (loginData) => async (dispatch) => {
       payload: err.response.data.error,
     });
   }
+};
+
+// Logout
+export const logout = () => {
+  return {
+    type: LOGOUT,
+  };
 };
 
 // Load User

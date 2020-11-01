@@ -51,6 +51,7 @@ useEffect(() => {
             type="email"
             placeholder="Email"
             className="logininput form-control"
+            required
           />
           <input
             name='password'
@@ -59,6 +60,7 @@ useEffect(() => {
             type="password"
             placeholder="Password"
             className="logininput form-control"
+            required
           />
           <a href="#!">Forgot your password?</a>
           <button id="signIn" className="btn btn-primary btn-lg mt-2" type='submit'>

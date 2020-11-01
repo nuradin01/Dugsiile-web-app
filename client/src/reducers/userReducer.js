@@ -10,6 +10,7 @@ import {
   USER_LOADED,
   LOGIN_ERROR,
   AUTH_ERROR,
+  LOGOUT
 } from '../actions/types';
 
 const initialState = {
@@ -45,6 +46,7 @@ export default (state = initialState, action) => {
     case REGISTER_USER_FAIL:
     case LOGIN_ERROR:
     case AUTH_ERROR:
+    case LOGOUT:
       localStorage.removeItem('token');
       console.log(action.payload);
       return {

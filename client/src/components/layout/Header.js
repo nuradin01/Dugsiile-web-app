@@ -1,6 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-const Header = () => {
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/userActions';
+
+const Header = ({logout}) => {
   return (
     <header className="app-header">
       <a className="app-header__logo" href="#!">
@@ -35,9 +39,9 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <a className="dropdown-item" href="/login">
+              <Link className="dropdown-item" to="/login" onClick={logout}>
                 <i className="fa fa-sign-out fa-lg" /> Sign Out
-              </a>
+              </Link>
             </li>
           </ul>
         </li>
@@ -46,4 +50,7 @@ const Header = () => {
   );
 };
 
-export default Header;
+Header.propTypes = {
+  logout: PropTypes.func.isRequired,
+}
+export default connect (null , {logout})(Header);
