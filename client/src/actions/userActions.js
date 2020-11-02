@@ -124,24 +124,33 @@ export const registerSchool = (school, subjects) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: REGISTER_SCHOOL_ERROR,
-      payload: err,
+      payload: err.response.data.error,
     });
   }
 };
 
 // Update user on server
 export const updateUser = (user) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   try {
     setLoading();
-
+    const res = await axios.put(
+      'http://localhost:5000/api/v1/auth/updatedetails',
+      user,
+      config
+    );
     dispatch({
       type: UPDATE_USER,
-      payload: user,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: USER_ERROR,
-      payload: 'Update user error',
+      payload: err.response.data.error,
     });
   }
 };

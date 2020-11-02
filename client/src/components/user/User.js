@@ -2,11 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/userActions';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
+
+
 const User = ({ userState: { user, school }, updateUser }) => {
+  const customTheme = (theme) => {
+    return {
+      ...theme,
+      colors: {
+        ...theme.colors,
+        primary25: '#00968880',
+        primary: '#009688',
+      },
+    };
+  };
+  const genderOptions = ['Male', 'Female']
+  const [gender, setGender] = useState('');
+
   const [editUser, setEditUser] = useState({
     name: '',
     email: '',
-    gender: '',
   });
 
   const [editForm, setShowEditForm] = useState(false);
@@ -23,7 +38,7 @@ const User = ({ userState: { user, school }, updateUser }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    updateUser({ ...editUser, id: user.id });
+    updateUser({...editUser, gender: gender.value});
     setShowEditForm(false);
   };
 
@@ -117,20 +132,23 @@ const User = ({ userState: { user, school }, updateUser }) => {
                       value={email}
                       onChange={onChange}
                       required
-                      readOnly
+                    
                     />
                   </div>
 
                   <div className="form-group col-md-8">
                     <label className="control-label">Gender</label>
-                    <select
-                      className="form-control"
-                      name="gender"
-                      onChange={onChange}
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                    </select>
+                    <Select
+                  theme={customTheme}
+                  options={genderOptions.map((gender) => {
+                    return { value: gender, label: gender};
+                  })}
+                
+                  placeholder="Select Gender"
+                  isSearchable
+                 
+                  onChange={setGender}
+                />
                   </div>
 
                   <div className="form-group col-md-8">

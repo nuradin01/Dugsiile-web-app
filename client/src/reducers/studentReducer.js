@@ -58,10 +58,10 @@ export default (state = initialState, action) => {
         loading: true,
       };
     case STUDENT_ERROR:
-      console.error(action.payload.error);
+      console.error(action.payload);
       return {
         ...state,
-        error: action.payload.error,
+        error: action.payload,
       };
     default:
       return state;

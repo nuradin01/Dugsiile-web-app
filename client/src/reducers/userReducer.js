@@ -69,7 +69,7 @@ export default (state = initialState, action) => {
     case UPDATE_USER:
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.data,
       };
     case REGISTER_SCHOOL_ERROR:
     case USER_ERROR:

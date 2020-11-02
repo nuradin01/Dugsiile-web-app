@@ -29,7 +29,7 @@ const [isScholarship, setIsScholarship] = useState(false)
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const updatedStudent = { ...student, id: current.id, isScholarship };
+    const updatedStudent = { ...student, _id: current._id, isScholarship };
     updateStudent(updatedStudent);
     setCurrent(updatedStudent);
     toast.success(`${updatedStudent.name} was updated successfully`, {
