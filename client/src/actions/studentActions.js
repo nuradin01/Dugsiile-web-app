@@ -14,7 +14,7 @@ import axios from 'axios'
 export const getStudents = () => async (dispatch) => {
   try {
     setLoading();
-    const res = await axios.get('http://localhost:5000/api/v1/students');
+    const res = await axios.get('http://localhost:5000/api/v1/students?isLeft=false');
     dispatch({
       type: GET_STUDENTS,
       payload: res.data
@@ -51,34 +51,53 @@ export const addStudent = (student) => async (dispatch) => {
 
 // Delete Student from server
 export const deleteStudent = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const student = {isLeft: true, leftAt: new Date().toISOString()}
   try {
     setLoading();
-
+    const res = await axios.put(
+      `http://localhost:5000/api/v1/students/${id}`,
+      student,
+      config
+    );
     dispatch({
       type: DELETE_STUDENT,
-      payload: id,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: STUDENT_ERROR,
-      payload: 'delete student error',
+      payload: err.response.data.error,
     });
   }
 };
 
 // Update student on server
 export const updateStudent = (student) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   try {
     setLoading();
-
+    const res = await axios.put(
+      `http://localhost:5000/api/v1/students/${student._id}`,
+      student,
+      config
+    );
     dispatch({
       type: UPDATE_STUDENT,
-      payload: student,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: STUDENT_ERROR,
-      payload: 'Update student error',
+      payload: err.response.data.error,
     });
   }
 };

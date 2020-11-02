@@ -33,17 +33,13 @@ export default (state = initialState, action) => {
     case DELETE_STUDENT:
       return {
         ...state,
-        students: state.students.filter(
-          (student) => student.id !== action.payload
-        ),
+        current: null,
         loading: false,
       };
     case UPDATE_STUDENT:
       return {
         ...state,
-        students: state.students.map((student) =>
-          student.id === action.payload.id ? action.payload : student
-        ),
+        current: action.payload.data
       };
 
     case SET_CURRENT:
@@ -62,10 +58,10 @@ export default (state = initialState, action) => {
         loading: true,
       };
     case STUDENT_ERROR:
-      console.error(action.payload);
+      console.error(action.payload.error);
       return {
         ...state,
-        error: action.payload,
+        error: action.payload.error,
       };
     default:
       return state;

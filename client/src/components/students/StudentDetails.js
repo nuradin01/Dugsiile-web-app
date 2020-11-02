@@ -30,9 +30,9 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        deleteStudent(current.id);
+        deleteStudent(current._id);
         clearCurrent();
-        swal(` ${current.studentName} has been deleted!`);
+        swal(` ${current.name} has been deleted!`);
       }
     });
   };

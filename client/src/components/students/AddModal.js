@@ -9,18 +9,7 @@ import { addStudent } from '../../actions/studentActions';
 toast.configure();
 
 const AddModal = ({ isRegisteredSchool, schoolSubjects, addStudent }) => {
-  useEffect(() => {
-    if (!isRegisteredSchool) {
-      toast.error('You have not registered your school yet', {
-        autoClose: 50000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-  });
+ 
   const customTheme = (theme) => {
     return {
       ...theme,
@@ -37,13 +26,13 @@ const AddModal = ({ isRegisteredSchool, schoolSubjects, addStudent }) => {
     parentName: '',
     parentPhone: '',
     studentPhone: '',
-    gender: '',
     fee: '',
     isPaid: 0,
    
-    joined: new Date(),
   });
+const genderOptions = ['Male', 'Female']
 
+  const [gender, setGender] = useState('');
   const [studentSubjects, setStudentSubjects] = useState([]);
   const [isScholarship, setIsScholarship] = useState(false)
 
@@ -55,7 +44,7 @@ const AddModal = ({ isRegisteredSchool, schoolSubjects, addStudent }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const newStudent = {
-      name: studentName, parentName, parentPhone, studentPhone, fee, isScholarship, studentSubjects: studentSubjects.map(subject => subject.value), gender: student.gender
+      name: studentName, parentName, parentPhone, studentPhone, fee, isScholarship, studentSubjects: studentSubjects.map(subject => subject.value), gender: gender.value
     }
    
     addStudent(newStudent);
@@ -64,17 +53,27 @@ const AddModal = ({ isRegisteredSchool, schoolSubjects, addStudent }) => {
       parentName: '',
       parentPhone: '',
       studentPhone: '',
-
-      gender: '',
       fee: '',
       isPaid: 0,
-    
-      joined: new Date(),
     });
+    console.log(newStudent.gender)
     toast.success(`${studentName} was added as a student`, {
       hideProgressBar: true,
     });
   };
+
+  useEffect(() => {
+    if (!isRegisteredSchool) {
+      toast.error('You have not registered your school yet', {
+        autoClose: 50000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  });
 
   return (
     <div
@@ -175,18 +174,17 @@ const AddModal = ({ isRegisteredSchool, schoolSubjects, addStudent }) => {
               </div>
               <div className="form-group col-md-6">
                 <label className="control-label">Gender</label>
-                <select
-                  className="form-control"
-                  defaultValue={'DEFAULT'}
-                  name="gender"
-                  onChange={onChange}
-                >
-                  <option value="DEFAULT" disabled>
-                    Select Gender
-                  </option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
+                <Select
+                  theme={customTheme}
+                  options={genderOptions.map((gender) => {
+                    return { value: gender, label: gender};
+                  })}
+                
+                  placeholder="Select Gender"
+                  isSearchable
+                 
+                  onChange={setGender}
+                />
               </div>
               <div className="form-group col-md-12">
                 <Select

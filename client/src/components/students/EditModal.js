@@ -11,7 +11,7 @@ const EditModal = ({ current, updateStudent, setCurrent }) => {
   }, []);
 
   const [student, setStudent] = useState({
-    studentName: '',
+    name: '',
     parentName: '',
     parentPhone: '',
     studentPhone: '',
@@ -23,7 +23,7 @@ const EditModal = ({ current, updateStudent, setCurrent }) => {
 
 const [isScholarship, setIsScholarship] = useState(false)
 
-  const { studentName, parentName, parentPhone, studentPhone, fee, } = student;
+  const { name, parentName, parentPhone, studentPhone, fee, } = student;
   const onChange = (e) =>
     setStudent({ ...student, [e.target.name]: e.target.value });
 
@@ -32,7 +32,7 @@ const [isScholarship, setIsScholarship] = useState(false)
     const updatedStudent = { ...student, id: current.id, isScholarship };
     updateStudent(updatedStudent);
     setCurrent(updatedStudent);
-    toast.success(`${updatedStudent.studentName} was updated successfully`, {
+    toast.success(`${updatedStudent.name} was updated successfully`, {
       hideProgressBar: true,
     });
   };
@@ -70,8 +70,8 @@ const [isScholarship, setIsScholarship] = useState(false)
                 <input
                   className="form-control"
                   id="updateName"
-                  name="studentName"
-                  value={studentName}
+                  name="name"
+                  value={name}
                   type="text"
                   placeholder="enter full name"
                   onChange={onChange}

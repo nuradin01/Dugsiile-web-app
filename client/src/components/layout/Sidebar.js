@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 
 
-
-const Sidebar = ({ userState: { user }, }) => {
+const Sidebar = ({ userState: { user }}) => {
   useEffect(() => {
     const script5 = document.createElement('script');
     script5.src = 'js/main.js';
     script5.async = true;
     document.body.appendChild(script5);
-
     // eslint-disable-next-line
   }, []);
  
@@ -71,7 +69,6 @@ const Sidebar = ({ userState: { user }, }) => {
 };
 Sidebar.propTypes = {
   user: PropTypes.object,
-
 }
 const mapStateToProps = (state) => ({
   userState: state.userState,

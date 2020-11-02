@@ -26,6 +26,10 @@ const StudentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    isLeft: {
+        type: Boolean,
+        default: false
+    },
     leftAt: {
         type: Date,
         default: null,
