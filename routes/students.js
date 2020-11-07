@@ -9,7 +9,10 @@ const router = express.Router();
 router.use(protect);
 router.use(authorize('user', 'admin'));
 
-router.route('/').get(advancedResults(Student), getStudents).post(addStudent);
+router.route('/').get( advancedResults(Student, {
+  path: 'fees',
+  match: {isPaid: false}
+}), getStudents).post(addStudent);
 router.route('/current').get(getCurrentStudents)
 router
   .route('/:id')

@@ -20,7 +20,6 @@ const advancedResults = (model, populate) => async (req, res, next) => {
   queryStr = JSON.parse(queryStr)
   // Add user to query string
   queryStr.user = req.user.id
-  console.log(queryStr)
     // Finding resources
     query = model.find(queryStr);
   

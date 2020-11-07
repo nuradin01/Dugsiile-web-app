@@ -10,6 +10,7 @@ import {
   USER_LOADED,
   LOGIN_ERROR,
   AUTH_ERROR,
+  NETWORK_ERROR,
   LOGOUT
 } from './types';
 import axios from 'axios';
@@ -90,7 +91,13 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
+    if (err.response === undefined) {
+    dispatch({ type: NETWORK_ERROR, payload: err }); 
+
+    } else {
+      dispatch({ type: AUTH_ERROR, payload:  err.response.data.error })
+
+  }
   }
 };
 
@@ -120,7 +127,7 @@ export const registerSchool = (school, subjects) => async (dispatch) => {
       type: REGISTER_SCHOOL_SUCCESS,
       payload: res.data,
     });
-    loadUser();
+
   } catch (err) {
     dispatch({
       type: REGISTER_SCHOOL_ERROR,

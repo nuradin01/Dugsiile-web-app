@@ -10,7 +10,7 @@ const Student = ({ student, setCurrent }) => {
     parentPhone,
     fee,
     isScholarship,
-    isPaid,
+    fees
   } = student;
 
   return (
@@ -21,10 +21,12 @@ const Student = ({ student, setCurrent }) => {
         <td>{parentPhone ? parentPhone : 'N/A'}</td>
         <td>{fee}</td>
         <td>
-          {!isPaid  && !isScholarship ? (
-            <i className="fa fa-times fa-2x  text-danger"></i>
-          ) : (
+          {fees.length ===0  || isScholarship ? (
             <i className="fa fa-check fa-2x text-primary" />
+
+          ) : (
+            <i className="fa fa-times fa-2x  text-danger"></i>
+
           )}
         </td>
         <td>

@@ -10,7 +10,7 @@ exports.getStudents = asyncHandler(async (req, res, next) => {
     res.status(200).json(res.advancedResults);
   });
 
-  // @desc            Get single student
+// @desc            Get single student
 // @route           GET /api/v1/students/:id
 // @access          Private
 exports.getStudent = asyncHandler(async (req, res, next) => {

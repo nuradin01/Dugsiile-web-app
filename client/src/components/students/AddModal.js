@@ -44,7 +44,7 @@ const genderOptions = ['Male', 'Female']
   const onSubmit = (e) => {
     e.preventDefault();
     const newStudent = {
-      name: studentName, parentName, parentPhone, studentPhone, fee, isScholarship, studentSubjects: studentSubjects.map(subject => subject.value), gender: gender.value
+      name: studentName, parentName, parentPhone, studentPhone,fee, isScholarship, studentSubjects: studentSubjects.map(subject => subject.value), gender: gender.value
     }
    
     addStudent(newStudent);

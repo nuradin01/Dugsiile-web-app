@@ -118,7 +118,7 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
             </div>
             <div className="tile-body">
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <h5>Personal Information</h5>
                   <p>
                     <strong>Parent Name: &nbsp; </strong> {current.parentName}
@@ -139,13 +139,38 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
                     <Moment format="DD - MMMM - YYYY">{current.joined}</Moment>
                   </p>
                 </div>
-                <div className="col-md-3">
-                  <h5>fees</h5>
-                  <p>
-                    <strong>Balance:&nbsp;</strong> <br /> Last month : $0{' '}
-                    <br /> Older months: $1
-                  </p>
-                </div>
+             {current.fees.length > 0 && <div className="col-md-5">
+                  <h5>Unpaid Fees</h5>
+                  <table className="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Month</th>
+      <th scope="col">Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {current.fees.map((eachMonth, index) => (
+      
+
+      <tr key={index}>
+      <th scope="row">{index+1}</th>
+    <td>{  <Moment format="MMMM - YYYY">{eachMonth.chargedAt}</Moment>}</td>
+    <td>{eachMonth.balance}</td>
+    </tr>
+    
+    )) }
+    {/* <tr>
+      <td colSpan="2">Total Balance</td>
+    <th scope="row">0</th>
+      
+    </tr> */}
+  
+   
+  </tbody>
+</table>
+                </div>}
+                
                 <div className="col-md-3">
                   <h5>Subjects</h5>
                   {current.studentSubjects.map((subject, index) => (

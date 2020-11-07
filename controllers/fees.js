@@ -15,7 +15,7 @@ exports.getFees = asyncHandler(async (req, res, next) => {
 // @route           POST /api/v1/fees
 // @access          Private
 exports.chargeAllPaidStudents = asyncHandler(async (req, res, next) => {
-  const students = await Student.find({ isScholarship: false, leftAt: null, user: req.user.id });
+  const students = await Student.find({ isScholarship: false, leftAt: null, isLeft:false, user: req.user.id });
   let fees = await students.map((student) => {
     const feeToCharge = {
       balance:student.fee,
@@ -23,6 +23,7 @@ exports.chargeAllPaidStudents = asyncHandler(async (req, res, next) => {
       user: req.user.id,
       amountCharged: student.fee,
     };
+   
     return Fee.create(feeToCharge);
   });
  
@@ -39,6 +40,10 @@ exports.chargeStudent = asyncHandler(async (req, res, next) => {
   if (!student) {
     return next(
       new ErrorResponse(`Student not found with id of ${req.params.id}`, 404)
+    );
+  } else if ( student.isScholarship || student.isLeft){
+    return next(
+      new ErrorResponse(`This Student is either a Scholarship or left from the school`, 404)
     );
   }
 
@@ -66,7 +71,7 @@ exports.chargeStudent = asyncHandler(async (req, res, next) => {
 // @route           PUT /api/v1/fees/:id
 // @access          Private
 exports.receivePayment = asyncHandler(async (req, res, next) => {
-  let fee = await Fee.findOne({student:req.params.id, paidAt: null});
+  let fee = await Fee.findOne({student:req.params.id, paidAt: null, isPaid: false});
   if (!fee) {
     return next(
       new ErrorResponse(`This Student have paid all fees`, 404)
