@@ -7,6 +7,8 @@ import {
   UPDATE_STUDENT,
   SET_CURRENT,
   CLEAR_CURRENT,
+  CHARGE_ALL_PAID_STUDENTS,
+  CHARGE_ALL_PAID_STUDENTS_ERROR
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +21,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_STUDENTS:
+    case CHARGE_ALL_PAID_STUDENTS:
       return {
         ...state,
         students: action.payload.data,
@@ -58,6 +61,7 @@ export default (state = initialState, action) => {
         loading: true,
       };
     case STUDENT_ERROR:
+    case CHARGE_ALL_PAID_STUDENTS_ERROR:
       console.error(action.payload);
       return {
         ...state,

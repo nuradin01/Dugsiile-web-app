@@ -7,6 +7,8 @@ import {
   UPDATE_STUDENT,
   SET_CURRENT,
   CLEAR_CURRENT,
+  CHARGE_ALL_PAID_STUDENTS,
+CHARGE_ALL_PAID_STUDENTS_ERROR
 } from './types';
 import axios from 'axios'
 
@@ -97,6 +99,29 @@ export const updateStudent = (student) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: STUDENT_ERROR,
+      payload: err.response.data.error,
+    });
+  }
+};
+
+// Get students from server
+export const chargeAllPaidStudents = () => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    setLoading();
+    await axios.post('http://localhost:5000/api/v1/fees', config);
+    const res = await axios.get('http://localhost:5000/api/v1/students?isLeft=false');
+    dispatch({
+      type: CHARGE_ALL_PAID_STUDENTS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: CHARGE_ALL_PAID_STUDENTS_ERROR,
       payload: err.response.data.error,
     });
   }

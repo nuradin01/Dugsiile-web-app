@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getStudents } from '../../actions/studentActions';
+import { getStudents, chargeAllPaidStudents } from '../../actions/studentActions';
 
 import Student from './Student';
 import AddModal from './AddModal';
@@ -13,7 +13,7 @@ import Loader from './Loader';
 const Students = ({
   studentsState: { students, loading },
   userState: {user },
-  getStudents,
+  getStudents,chargeAllPaidStudents
 }) => {
   const {isRegisteredSchool, schoolSubjects} = user
   useEffect(() => {
@@ -53,7 +53,7 @@ const Students = ({
             <button
                 className="btn btn-outline-info pull-right ml-1"
                 type="button"
-               
+               onClick={chargeAllPaidStudents}
               >
                 <i className="fa fa-dollar" />
                 Charge All
@@ -115,10 +115,11 @@ const Students = ({
 Students.propTypes = {
   students: PropTypes.array,
   getStudents: PropTypes.func.isRequired,
+  chargeAllPaidStudents: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   studentsState: state.studentsState,
   userState: state.userState,
 });
 
-export default connect(mapStateToProps, { getStudents })(Students);
+export default connect(mapStateToProps, { getStudents, chargeAllPaidStudents })(Students);
