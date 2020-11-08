@@ -5,21 +5,21 @@ import swal from 'sweetalert';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { deleteStudent, clearCurrent } from '../../actions/studentActions';
+import { deleteStudent, clearCurrent, receivePayment } from '../../actions/studentActions';
 import EditModal from './EditModal';
 import CustomPaymentModal from './CustomPaymentModal';
 
-const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
+const StudentDetails = ({ current, deleteStudent, clearCurrent, receivePayment }) => {
   useEffect(() => {
-    return () => {
-      clearCurrent();
-    };
+    // return () => {
+    //   clearCurrent();
+    // };
     // eslint-disable-next-line
   }, []);
   if (!current) {
     return <Redirect to="/students" />;
   }
-
+const totalBalance = current.fees.reduce((total, fee) => total + fee.balance, 0)
   const onDelete = () => {
     swal({
       title: 'Are you sure?',
@@ -36,7 +36,20 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
       }
     });
   };
-
+  const onReceive = (e) => {
+    e.preventDefault()
+    swal({
+      title: 'Are you sure?',
+      text: ` You are receiving fee from ${current.name}!`,
+      icon: 'success',
+      buttons: [true, 'Yes'],
+    }).then((willDelete) => {
+      if (willDelete) {
+        const payment = {id:current._id, amountPaid: current.amountCharged, message: 'Fully Paid', isPaid: true, paidAt: new Date().toISOString()}
+        receivePayment(payment);
+      }
+    });
+  };
   return (
     <main className="app-content">
       <div className="app-title">
@@ -86,14 +99,14 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
                   <i className="fa fa-lg fa-dollar"></i>
                   Charge
                 </a>
-                <a
+                <Link
                   className="btn btn-outline-primary"
-                  href="#!"
-                 
+                  to="#"
+                 onClick={onReceive}
                 >
                   <i className="fa fa-lg fa-dollar"></i>
                   Paid
-                </a>
+                </Link>
                 <div className="btn-group" role="group">
               <button
                 className="btn btn-outline-primary dropdown-toggle"
@@ -160,11 +173,11 @@ const StudentDetails = ({ current, deleteStudent, clearCurrent }) => {
     </tr>
     
     )) }
-    {/* <tr>
+    <tr>
       <td colSpan="2">Total Balance</td>
-    <th scope="row">0</th>
+    <th scope="row">{totalBalance}</th>
       
-    </tr> */}
+    </tr>
   
    
   </tbody>
@@ -196,6 +209,6 @@ StudentDetails.propTypes = {
 const mapStateToProps = (state) => ({
   current: state.studentsState.current,
 });
-export default connect(mapStateToProps, { deleteStudent, clearCurrent })(
+export default connect(mapStateToProps, { deleteStudent, clearCurrent, receivePayment })(
   StudentDetails
 );

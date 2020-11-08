@@ -8,18 +8,22 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   CHARGE_ALL_PAID_STUDENTS,
-CHARGE_ALL_PAID_STUDENTS_ERROR
+  CHARGE_ALL_PAID_STUDENTS_ERROR,
+  RECEIVE_PAYMENT,
+  RECEIVE_PAYMENT_ERROR,
 } from './types';
-import axios from 'axios'
+import axios from 'axios';
 
 // Get students from server
 export const getStudents = () => async (dispatch) => {
   try {
     setLoading();
-    const res = await axios.get('http://localhost:5000/api/v1/students?isLeft=false');
+    const res = await axios.get(
+      'http://localhost:5000/api/v1/students?isLeft=false'
+    );
     dispatch({
       type: GET_STUDENTS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
@@ -38,10 +42,14 @@ export const addStudent = (student) => async (dispatch) => {
   };
   try {
     setLoading();
-    const res = await axios.post('http://localhost:5000/api/v1/students', student, config);
+    const res = await axios.post(
+      'http://localhost:5000/api/v1/students',
+      student,
+      config
+    );
     dispatch({
       type: ADD_STUDENT,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
@@ -58,7 +66,7 @@ export const deleteStudent = (id) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-  const student = {isLeft: true, leftAt: new Date().toISOString()}
+  const student = { isLeft: true, leftAt: new Date().toISOString() };
   try {
     setLoading();
     const res = await axios.put(
@@ -104,6 +112,45 @@ export const updateStudent = (student) => async (dispatch) => {
   }
 };
 
+// Receive fee from single student
+export const receivePayment = (payment) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  let { id } = payment;
+  id = id.split(' ')[0];
+  console.log(id);
+  const feeReceived = {
+    amountPaid: payment.amountPaid,
+    message: payment.message,
+    isPaid: payment.isPaid,
+    paidAt: payment.paidAt,
+  };
+  try {
+    setLoading();
+     axios.put(
+      `http://localhost:5000/api/v1/fees/${id}`,
+      feeReceived,
+      config
+    );
+    const res = await axios.get(
+      `http://localhost:5000/api/v1/students?isLeft=false&_id=${payment.id}`
+    );
+
+    dispatch({
+      type: RECEIVE_PAYMENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: RECEIVE_PAYMENT_ERROR,
+      payload: err.response.data.error ? err.response.data.error : err,
+    });
+  }
+};
+
 // Get students from server
 export const chargeAllPaidStudents = () => async (dispatch) => {
   const config = {
@@ -114,10 +161,12 @@ export const chargeAllPaidStudents = () => async (dispatch) => {
   try {
     setLoading();
     await axios.post('http://localhost:5000/api/v1/fees', config);
-    const res = await axios.get('http://localhost:5000/api/v1/students?isLeft=false');
+    const res = await axios.get(
+      'http://localhost:5000/api/v1/students?isLeft=false'
+    );
     dispatch({
       type: CHARGE_ALL_PAID_STUDENTS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
