@@ -9,6 +9,7 @@ import {
   deleteStudent,
   clearCurrent,
   receivePayment,
+  chargeStudent
 } from '../../actions/studentActions';
 import EditModal from './EditModal';
 import CustomPaymentModal from './CustomPaymentModal';
@@ -18,6 +19,7 @@ const StudentDetails = ({
   deleteStudent,
   clearCurrent,
   receivePayment,
+  chargeStudent
 }) => {
   useEffect(() => {
     return () => {
@@ -61,6 +63,20 @@ const StudentDetails = ({
           paidAt: new Date().toISOString(),
         };
         receivePayment(payment);
+      }
+    });
+  };
+  const chargeSingleStudent = (e) => {
+    e.preventDefault();
+    swal({
+      title: 'Are you sure?',
+      text: ` You are charging $${current.fee} as a fee to ${current.name}!`,
+      icon: 'warning',
+      buttons: [true, 'Yes'],
+    }).then((willDelete) => {
+      if (willDelete) {
+       
+        chargeStudent(current._id);
       }
     });
   };
@@ -109,10 +125,10 @@ const StudentDetails = ({
                   Delete
                 </Link>
 
-                <a className="btn btn-outline-info" href="#!">
+                <Link className="btn btn-outline-info" href="#" onClick={chargeSingleStudent}>
                   <i className="fa fa-lg fa-dollar"></i>
                   Charge
-                </a>
+                </Link>
                 <Link
                   className="btn btn-outline-primary"
                   to="#"
@@ -201,16 +217,17 @@ const StudentDetails = ({
                         ))}
                         <tr>
                           <td colSpan="2">Total Balance</td>
-                          <th scope="row">{ current.fees.reduce(
-    (total, fee) => total + fee.balance,
-    0
-  )}</th>
+                          <th scope="row">
+                            {current.fees.reduce(
+                              (total, fee) => total + fee.balance,
+                              0
+                            )}
+                          </th>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 )}
-
               </div>
             </div>
           </div>
@@ -232,4 +249,5 @@ export default connect(mapStateToProps, {
   deleteStudent,
   clearCurrent,
   receivePayment,
+  chargeStudent
 })(StudentDetails);

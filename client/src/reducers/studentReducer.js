@@ -10,7 +10,9 @@ import {
   CHARGE_ALL_PAID_STUDENTS,
   CHARGE_ALL_PAID_STUDENTS_ERROR,
   RECEIVE_PAYMENT,
-  RECEIVE_PAYMENT_ERROR
+  RECEIVE_PAYMENT_ERROR,
+  CHARGE_SINGLE_STUDENT,
+  CHARGE_SINGLE_STUDENT_ERROR
 } from '../actions/types';
 
 const initialState = {
@@ -47,6 +49,7 @@ export default (state = initialState, action) => {
         current: action.payload.data
       };
       case RECEIVE_PAYMENT:
+      case CHARGE_SINGLE_STUDENT:
         return {
           ...state,
           current: action.payload.data[0],
@@ -69,6 +72,7 @@ export default (state = initialState, action) => {
     case STUDENT_ERROR:
     case CHARGE_ALL_PAID_STUDENTS_ERROR:
     case RECEIVE_PAYMENT_ERROR:
+    case CHARGE_SINGLE_STUDENT_ERROR:
       console.error(action.payload);
       return {
         ...state,

@@ -11,6 +11,8 @@ import {
   CHARGE_ALL_PAID_STUDENTS_ERROR,
   RECEIVE_PAYMENT,
   RECEIVE_PAYMENT_ERROR,
+  CHARGE_SINGLE_STUDENT,
+  CHARGE_SINGLE_STUDENT_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -149,7 +151,7 @@ export const receivePayment = (payment) => async (dispatch) => {
   }
 };
 
-// Get students from server
+// charge all paid students
 export const chargeAllPaidStudents = () => async (dispatch) => {
   const config = {
     headers: {
@@ -169,6 +171,31 @@ export const chargeAllPaidStudents = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: CHARGE_ALL_PAID_STUDENTS_ERROR,
+      payload: err.response.data.error,
+    });
+  }
+};
+
+//Charge single Student
+export const chargeStudent = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    setLoading();
+    await axios.post(`http://localhost:5000/api/v1/fees/${id}`, config);
+    const res = await axios.get(
+      `http://localhost:5000/api/v1/students?isLeft=false&_id=${id}`
+    );
+    dispatch({
+      type: CHARGE_SINGLE_STUDENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: CHARGE_SINGLE_STUDENT_ERROR,
       payload: err.response.data.error,
     });
   }
