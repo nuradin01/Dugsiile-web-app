@@ -120,8 +120,6 @@ export const receivePayment = (payment) => async (dispatch) => {
     },
   };
   let { id } = payment;
-  id = id.split(' ')[0];
-  console.log(id);
   const feeReceived = {
     amountPaid: payment.amountPaid,
     message: payment.message,
@@ -130,7 +128,7 @@ export const receivePayment = (payment) => async (dispatch) => {
   };
   try {
     setLoading();
-     axios.put(
+    await axios.put(
       `http://localhost:5000/api/v1/fees/${id}`,
       feeReceived,
       config
