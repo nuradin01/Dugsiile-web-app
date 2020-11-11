@@ -10,6 +10,7 @@ import Register from './components/auth/Register';
 import RegisterSchool from './components/school/RegisterSchool'
 import UserPage from './components/pages/UserPage'
 import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
 import { Provider } from 'react-redux';
 
 import store from './store';
@@ -27,14 +28,13 @@ const App = () => {
       <Router>
         <>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/students" component={Students} />
-            <Route exact path="/student-details" component={StudentDetails} />
+            <PrivateRoute exact path="/" component={Home} />
+            <PrivateRoute exact path="/students" component={Students} />
+            <PrivateRoute exact path="/student-details" component={StudentDetails} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/school" component={SchoolPage} />
-            <Route exact path="/register-school" component={RegisterSchool} />
-            <Route exact path="/user" component={UserPage} />
+            <PrivateRoute exact path="/school" component={SchoolPage} />
+            <PrivateRoute exact path="/user" component={UserPage} />
           </Switch>
         </>
       </Router>

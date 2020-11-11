@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getStudents, chargeAllPaidStudents } from '../../actions/studentActions';
-
+import swal from 'sweetalert';
 import Student from './Student';
 import AddModal from './AddModal';
 import Loader from './Loader';
@@ -27,6 +27,19 @@ const Students = ({
     return <Loader />;
   }
 
+  const chargeAll = () => {
+    swal({
+      title: 'Are you sure?',
+      text: ` You are charging all paid students`,
+      icon: 'warning',
+      buttons: [true, 'Yes'],
+    }).then((willDelete) => {
+      if (willDelete) {
+        
+        chargeAllPaidStudents();
+      }
+    });
+  }
   return (
     <main className="app-content">
       <div className="app-title">
@@ -53,7 +66,7 @@ const Students = ({
             <button
                 className="btn btn-outline-info pull-right ml-1"
                 type="button"
-               onClick={chargeAllPaidStudents}
+               onClick={chargeAll}
               >
                 <i className="fa fa-dollar" />
                 Charge All
