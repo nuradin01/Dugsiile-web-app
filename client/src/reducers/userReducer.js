@@ -10,7 +10,6 @@ import {
   USER_LOADED,
   LOGIN_ERROR,
   AUTH_ERROR,
-  NETWORK_ERROR,
   LOGOUT
 } from '../actions/types';
 
@@ -36,7 +35,6 @@ export default (state = initialState, action) => {
       };
     case REGISTER_USER_SUCCESS:
     case LOGIN_SUCCESS:
-      console.log(action.payload.token);
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
@@ -44,12 +42,6 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
       };
-      case NETWORK_ERROR:
-        console.log(action.payload);
-        return {
-          ...state,
-          error: `Network error please check your connection and refresh the page ${action.payload}`,
-        };
     case REGISTER_USER_FAIL:
     case LOGIN_ERROR:
     case AUTH_ERROR:

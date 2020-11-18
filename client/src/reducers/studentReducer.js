@@ -25,18 +25,20 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_STUDENTS:
+    case ADD_STUDENT:
     case CHARGE_ALL_PAID_STUDENTS:
       return {
         ...state,
         students: action.payload.data,
         loading: false,
       };
-    case ADD_STUDENT:
-      return {
-        ...state,
-        students: [...state.students, action.payload.data],
-        loading: false,
-      };
+    // case ADD_STUDENT:
+    //   console.log(action.payload.data)
+    //   return {
+    //     ...state,
+    //     students: [...state.students, action.payload.data],
+    //     loading: false,
+    //   };
     case DELETE_STUDENT:
       return {
         ...state,
@@ -44,9 +46,11 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case UPDATE_STUDENT:
+      console.log(action.payload.data)
       return {
         ...state,
-        current: action.payload.data
+        loading: false,
+        current: action.payload.data[0],
       };
       case RECEIVE_PAYMENT:
       case CHARGE_SINGLE_STUDENT:

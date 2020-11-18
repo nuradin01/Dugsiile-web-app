@@ -124,7 +124,8 @@ const StudentDetails = ({
                   <i className="fa fa-lg fa-trash"></i>
                   Delete
                 </Link>
-
+                {!current.isScholarship && 
+                <>
                 <Link className="btn btn-outline-info" href="#" onClick={chargeSingleStudent}>
                   <i className="fa fa-lg fa-dollar"></i>
                   Charge
@@ -157,6 +158,8 @@ const StudentDetails = ({
                     </Link>
                   </div>
                 </div>
+                </>
+                }
               </div>
             </div>
             <div className="tile-body">
@@ -179,14 +182,14 @@ const StudentDetails = ({
                   </p>
                   <p>
                     <strong>Joined: &nbsp;</strong>{' '}
-                    <Moment format="DD - MMMM - YYYY">{current.joined}</Moment>
+                    <Moment format="DD - MMMM - YYYY">{current.joinedAt}</Moment>
                   </p>
                 </div>
                 <div className="col-md-3">
                   <h5>Subjects</h5>
                   {current.studentSubjects.map((subject, index) => (
                     <span key={index}>
-                      {subject} <br />
+                  {index+1 } .   {subject} <br />
                     </span>
                   ))}
                 </div>

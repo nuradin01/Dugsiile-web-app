@@ -10,7 +10,6 @@ import {
   USER_LOADED,
   LOGIN_ERROR,
   AUTH_ERROR,
-  NETWORK_ERROR,
   LOGOUT
 } from './types';
 import axios from 'axios';
@@ -91,13 +90,10 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    if (err.response === undefined) {
-    dispatch({ type: NETWORK_ERROR, payload: err }); 
-
-    } else {
+    
       dispatch({ type: AUTH_ERROR, payload:  err.response.data.error })
 
-  }
+  
   }
 };
 

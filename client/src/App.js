@@ -7,7 +7,6 @@ import StudentDetails from './components/pages/StudentDetails';
 import SchoolPage from './components/pages/SchoolPage';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import RegisterSchool from './components/school/RegisterSchool'
 import UserPage from './components/pages/UserPage'
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';

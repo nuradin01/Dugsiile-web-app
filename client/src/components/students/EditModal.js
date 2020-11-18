@@ -21,7 +21,7 @@ const EditModal = ({ current, updateStudent, setCurrent }) => {
     joined: new Date(),
   });
 
-const [isScholarship, setIsScholarship] = useState(false)
+const [isScholarship, setIsScholarship] = useState(current.isScholarship)
 
   const { name, parentName, parentPhone, studentPhone, fee, } = student;
   const onChange = (e) =>
@@ -29,9 +29,8 @@ const [isScholarship, setIsScholarship] = useState(false)
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const updatedStudent = { ...student, _id: current._id, isScholarship };
+    const updatedStudent = { ...student, _id: current._id, isScholarship, studentSubjects: current.studentSubjects };
     updateStudent(updatedStudent);
-    setCurrent(updatedStudent);
     toast.success(`${updatedStudent.name} was updated successfully`, {
       hideProgressBar: true,
     });
@@ -162,7 +161,7 @@ const [isScholarship, setIsScholarship] = useState(false)
               </div>
               <div className="animated-checkbox form-group ml-3">
               <label>
-                <input type="checkbox" name='isScholarship' value={isScholarship} onChange={() => setIsScholarship(!isScholarship)} /><span className="label-text"
+                <input type="checkbox" name='isScholarship' checked={isScholarship} value={isScholarship} onChange={() => setIsScholarship(!isScholarship)} /><span className="label-text"
                   >Scholarship</span>
               </label>
             </div>

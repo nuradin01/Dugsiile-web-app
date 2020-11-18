@@ -44,10 +44,13 @@ export const addStudent = (student) => async (dispatch) => {
   };
   try {
     setLoading();
-    const res = await axios.post(
+    await axios.post(
       'http://localhost:5000/api/v1/students',
       student,
       config
+    );
+    const res = await axios.get(
+      'http://localhost:5000/api/v1/students?isLeft=false'
     );
     dispatch({
       type: ADD_STUDENT,
@@ -97,11 +100,15 @@ export const updateStudent = (student) => async (dispatch) => {
   };
   try {
     setLoading();
-    const res = await axios.put(
+    await axios.put(
       `http://localhost:5000/api/v1/students/${student._id}`,
       student,
       config
     );
+    const res = await axios.get(
+      `http://localhost:5000/api/v1/students?isLeft=false&_id=${student._id}`
+    );
+    console.log(res)
     dispatch({
       type: UPDATE_STUDENT,
       payload: res.data,

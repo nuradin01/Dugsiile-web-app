@@ -63,6 +63,7 @@ const Students = ({
         <div className="col-md-12">
           <div className="tile">
             <div className="tile-body ">
+              {students.length > 0 &&
             <button
                 className="btn btn-outline-info pull-right ml-1"
                 type="button"
@@ -71,6 +72,7 @@ const Students = ({
                 <i className="fa fa-dollar" />
                 Charge All
               </button>
+              }
               <button
                 className="btn btn-outline-primary pull-right ml-5"
                 type="button"
@@ -88,6 +90,7 @@ const Students = ({
               >
                 <thead>
                   <tr>
+                    <th>No</th>
                     <th>Name</th>
                     <th>Parent</th>
                     <th>Phone</th>
@@ -105,8 +108,8 @@ const Students = ({
                       </td>
                     </tr>
                   ) : (
-                    students.map((student) => (
-                      <Student key={student._id} student={student} />
+                    students.map((student, index) => (
+                      <Student key={student._id} student={student} index={index} />
                     ))
                   )}
                 </tbody>

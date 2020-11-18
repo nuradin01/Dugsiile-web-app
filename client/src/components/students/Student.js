@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setCurrent } from '../../actions/studentActions';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-const Student = ({ student, setCurrent }) => {
+const Student = ({ student, setCurrent, index }) => {
   const {
     name,
     parentName,
@@ -16,12 +16,13 @@ const Student = ({ student, setCurrent }) => {
   return (
     <>
       <tr>
+        <td>{index+1}</td>
         <td>{name}</td>
         <td>{parentName}</td>
         <td>{parentPhone ? parentPhone : 'N/A'}</td>
         <td>{fee}</td>
         <td>
-          {fees.length ===0  || isScholarship ? (
+          {fees.length ===0 ? (
             <i className="fa fa-check fa-2x text-primary" />
 
           ) : (
