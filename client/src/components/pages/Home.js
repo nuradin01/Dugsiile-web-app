@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 
 import {loadUser} from '../../actions/userActions'
 
-const Home = ({loadUser, userState:{loading, user}}) => {
+const Home = ({loadUser, history,userState:{loading, user}}) => {
   useEffect(() => {
     loadUser()
      // eslint-disable-next-line 
@@ -17,6 +17,11 @@ const Home = ({loadUser, userState:{loading, user}}) => {
   if (loading || user === null || user==={}) {
     return <Loader />;
   }
+
+  if(!user.isRegisteredSchool) {
+    history.push('/school');
+  }
+  
   return (
     <>
       <Header />

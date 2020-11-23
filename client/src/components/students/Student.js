@@ -9,7 +9,6 @@ const Student = ({ student, setCurrent, index }) => {
     parentName,
     parentPhone,
     fee,
-    isScholarship,
     fees
   } = student;
 
@@ -20,7 +19,7 @@ const Student = ({ student, setCurrent, index }) => {
         <td>{name}</td>
         <td>{parentName}</td>
         <td>{parentPhone ? parentPhone : 'N/A'}</td>
-        <td>{fee}</td>
+        <td>{fee ? fee : 'Free'}</td>
         <td>
           {fees.length ===0 ? (
             <i className="fa fa-check fa-2x text-primary" />

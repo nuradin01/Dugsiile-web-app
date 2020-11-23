@@ -7,7 +7,7 @@ import Loader from '../students/Loader'
 
 import {loadUser} from '../../actions/userActions'
 
-const StudentsList = ({userState: {loading, user}, loadUser}) => {
+const StudentsList = ({userState: {loading, user}, loadUser, history}) => {
   useEffect(() => {
     const script10 = document.createElement('script');
     script10.src = 'js/custom/dataTable.js';
@@ -20,6 +20,10 @@ const StudentsList = ({userState: {loading, user}, loadUser}) => {
 
   if (loading || user === null || user==={}) {
     return <Loader />;
+  }
+
+  if(!user.isRegisteredSchool) {
+    history.push('/school');
   }
 
   return (

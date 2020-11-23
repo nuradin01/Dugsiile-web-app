@@ -24,8 +24,8 @@ const SchoolPage = ({userState: {loading, user}, loadUser}) => {
 
   return (
     <>
-      <Header />
-      <Sidebar />
+     {user.isRegisteredSchool && <Header />}
+      {user.isRegisteredSchool && <Sidebar />}
       <School />
     </>
   );

@@ -22,7 +22,7 @@ const onSubmit = (e) => {
 
 useEffect(() => {
   if (isAuthenticated) {
-    history.push('/');
+    history.push('/user');
   }
   // eslint-disable-next-line
 }, [isAuthenticated, history])
