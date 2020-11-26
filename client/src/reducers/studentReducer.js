@@ -12,11 +12,16 @@ import {
   RECEIVE_PAYMENT,
   RECEIVE_PAYMENT_ERROR,
   CHARGE_SINGLE_STUDENT,
-  CHARGE_SINGLE_STUDENT_ERROR
+  CHARGE_SINGLE_STUDENT_ERROR,
+  STUDENTS_INFO,
+  STUDENTS_INFO_ERROR
 } from '../actions/types';
 
 const initialState = {
   students: [],
+  studentsTotal: null,
+  newStudents: null,
+  leftStudents: null,
   current: null,
   loading: false,
   error: null,
@@ -32,13 +37,20 @@ export default (state = initialState, action) => {
         students: action.payload.data,
         loading: false,
       };
-    // case ADD_STUDENT:
-    //   console.log(action.payload.data)
-    //   return {
-    //     ...state,
-    //     students: [...state.students, action.payload.data],
-    //     loading: false,
-    //   };
+      case STUDENTS_INFO:
+        console.log(action.payload)
+        return {
+          ...state,
+          studentsTotal: action.payload.activeStudents.count,
+          newStudents: action.payload.activeStudents.data.filter((newStudent) => 
+           new Date(newStudent.joinedAt).getTime() >= (new Date().getTime() - 30 * 24 * 60 * 60 *1000) ? newStudent : 0
+          ),
+          leftStudents: action.payload.leftStudents.data.filter((leftStudent) => 
+           new Date(leftStudent.leftAt).getTime() >= (new Date().getTime() - 30 * 24 * 60 * 60 *1000) ? leftStudent : 0
+          ),
+          // newStudent.joinedAt.getTime() >= (new Date() - 30 * 24 * 60 * 60 *1000).getTime()),
+          loading: false,
+        };
     case DELETE_STUDENT:
       return {
         ...state,
@@ -77,6 +89,7 @@ export default (state = initialState, action) => {
     case CHARGE_ALL_PAID_STUDENTS_ERROR:
     case RECEIVE_PAYMENT_ERROR:
     case CHARGE_SINGLE_STUDENT_ERROR:
+    case STUDENTS_INFO_ERROR:
       console.error(action.payload);
       return {
         ...state,

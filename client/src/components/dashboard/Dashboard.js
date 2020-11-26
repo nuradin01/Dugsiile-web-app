@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-const Dashboard = () => {
+import {connect} from 'react-redux'
+import {getStudentsInfo} from '../../actions/studentActions'
+
+const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents}, getStudentsInfo}) => {
   useEffect(() => {
     const script11 = document.createElement('script');
     script11.src = 'js/custom/dashboard-charts.js';
     script11.async = true;
     document.body.appendChild(script11);
+
+    getStudentsInfo()
     // eslint-disable-next-line
   }, []);
   return (
@@ -27,48 +32,34 @@ const Dashboard = () => {
         </ul>
       </div>
       <div className="row">
-        <div className="col-md-6 col-lg-3">
-          <div className="widget-small primary coloured-icon">
+        <div className="col-md-6 col-lg-6">
+          <div className="widget-small primary coloured-icon ">
             <i className="icon fa fa-users fa-3x" />
-            <div className="info">
-              <h4> <b>500 </b></h4>
+            <div className="info py-2 pr-1">
+              <h3> Students </h3>
               <p>
-                Students
+               New:  <b>{newStudents? newStudents.length : 0}</b>
+              </p>
+              <p>
+               Left: <b>{leftStudents? leftStudents.length : 0}</b>
+              </p>
+              <p>
+              Total: <b>{studentsTotal ? studentsTotal : 0}</b> 
               </p>
             </div>
           </div>
         </div>
-        <div className="col-md-6 col-lg-3">
-          <div className="widget-small info coloured-icon">
-            <i className="icon fa fa-arrow-circle-up fa-3x" />
-            <div className="info">
-              <h4> <b> 500 </b></h4>
-              <p>
-                New Students 
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-6 col-lg-3">
-          <div className="widget-small danger coloured-icon">
-            <i className="icon fa fa-sign-out fa-3x" />
-            <div className="info mb-2">
-              <h4> <b> 500</b></h4>
-              <p>
-                Students Left
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 col-lg-3">
+        <div className="col-md-6 col-lg-6">
           <div className="widget-small info coloured-icon">
             <i className="icon fa fa-dollar fa-3x" />
-            <div className="info mb-2">
-              <h4> <b> $500 </b></h4>
+            <div className="info py-2 pr-1">
+              <h3> Revenue</h3>
               
               <p>
-                Revenue
+                Estimated: <b>$300</b>
+              </p>
+              <p>
+                In hand: <b>$250</b>
               </p>
             </div>
           </div>
@@ -110,4 +101,7 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  studentsState: state.studentsState,
+});
+export default connect(mapStateToProps, {getStudentsInfo})(Dashboard);

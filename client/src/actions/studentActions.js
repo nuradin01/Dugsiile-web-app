@@ -12,7 +12,9 @@ import {
   RECEIVE_PAYMENT,
   RECEIVE_PAYMENT_ERROR,
   CHARGE_SINGLE_STUDENT,
-  CHARGE_SINGLE_STUDENT_ERROR
+  CHARGE_SINGLE_STUDENT_ERROR,
+  STUDENTS_INFO,
+  STUDENTS_INFO_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -31,6 +33,28 @@ export const getStudents = () => async (dispatch) => {
     dispatch({
       type: STUDENT_ERROR,
       payload: err.response.data.error,
+    });
+  }
+};
+
+// Get students information
+export const getStudentsInfo = () => async (dispatch) => {
+  try {
+    setLoading();
+    const activeStudents = await axios.get(
+      'http://localhost:5000/api/v1/students?isLeft=false'
+    );
+    const leftStudents = await axios.get(
+      'http://localhost:5000/api/v1/students?isLeft=true'
+    );
+    dispatch({
+      type: STUDENTS_INFO,
+      payload: {activeStudents: activeStudents.data, leftStudents: leftStudents.data},
+    });
+  } catch (err) {
+    dispatch({
+      type: STUDENTS_INFO_ERROR,
+      payload: err,
     });
   }
 };
