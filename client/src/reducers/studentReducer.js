@@ -60,7 +60,6 @@ export default (state = initialState, action) => {
         loading: false,
       };
       case FEES_INFO:
-        console.log(action.payload);
         return {
           ...state,
           unpaidFees: action.payload.unpaidFees.data.reduce(

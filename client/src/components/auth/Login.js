@@ -45,6 +45,9 @@ useEffect(() => {
       progress: undefined,
     });
   }
+  if(localStorage.token){
+    loadUser()
+  }
   // eslint-disable-next-line
 }, [isAuthenticated, history])
 
