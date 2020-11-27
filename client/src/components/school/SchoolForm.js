@@ -36,14 +36,12 @@ console.log(test)
 
   useEffect(() => {
     if (showForm){
-      setSchool(userState.school)
-    
-        setSubjectFields(userState.schoolSubjects)
+      setSchool(userState.user.school)
 
       
     }
     
-  }, [showForm, userState.school,userState.schoolSubjects])
+  }, [showForm, userState.user.school])
   return (
     <>
       <form className="row" onSubmit={onSubmit}>

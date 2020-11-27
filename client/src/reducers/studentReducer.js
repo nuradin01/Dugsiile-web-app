@@ -14,7 +14,9 @@ import {
   CHARGE_SINGLE_STUDENT,
   CHARGE_SINGLE_STUDENT_ERROR,
   STUDENTS_INFO,
-  STUDENTS_INFO_ERROR
+  STUDENTS_INFO_ERROR,
+  FEES_INFO,
+  FEES_INFO_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -22,6 +24,8 @@ const initialState = {
   studentsTotal: null,
   newStudents: null,
   leftStudents: null,
+  paidFees: null,
+  unpaidFees: null,
   current: null,
   loading: false,
   error: null,
@@ -37,18 +41,38 @@ export default (state = initialState, action) => {
         students: action.payload.data,
         loading: false,
       };
-      case STUDENTS_INFO:
-        console.log(action.payload)
+    case STUDENTS_INFO:
+      return {
+        ...state,
+        studentsTotal: action.payload.activeStudents.count,
+        newStudents: action.payload.activeStudents.data.filter((newStudent) =>
+          new Date(newStudent.joinedAt).getTime() >=
+          new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+            ? newStudent
+            : 0
+        ),
+        leftStudents: action.payload.leftStudents.data.filter((leftStudent) =>
+          new Date(leftStudent.leftAt).getTime() >=
+          new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+            ? leftStudent
+            : 0
+        ),
+        loading: false,
+      };
+      case FEES_INFO:
+        console.log(action.payload);
         return {
           ...state,
-          studentsTotal: action.payload.activeStudents.count,
-          newStudents: action.payload.activeStudents.data.filter((newStudent) => 
-           new Date(newStudent.joinedAt).getTime() >= (new Date().getTime() - 30 * 24 * 60 * 60 *1000) ? newStudent : 0
+          unpaidFees: action.payload.unpaidFees.data.reduce(
+            (total, fee) => total + fee.balance,
+            0
           ),
-          leftStudents: action.payload.leftStudents.data.filter((leftStudent) => 
-           new Date(leftStudent.leftAt).getTime() >= (new Date().getTime() - 30 * 24 * 60 * 60 *1000) ? leftStudent : 0
-          ),
-          // newStudent.joinedAt.getTime() >= (new Date() - 30 * 24 * 60 * 60 *1000).getTime()),
+          paidFees: action.payload.paidFees.data.filter((paidFee) =>
+          new Date(paidFee.paidAt).getTime() >=
+          new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+            ? paidFee
+            : 0
+          ).reduce((total, paidFee) => total + paidFee.amountPaid, 0),
           loading: false,
         };
     case DELETE_STUDENT:
@@ -58,18 +82,18 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case UPDATE_STUDENT:
-      console.log(action.payload.data)
+      console.log(action.payload.data);
       return {
         ...state,
         loading: false,
         current: action.payload.data[0],
       };
-      case RECEIVE_PAYMENT:
-      case CHARGE_SINGLE_STUDENT:
-        return {
-          ...state,
-          current: action.payload.data[0],
-        };
+    case RECEIVE_PAYMENT:
+    case CHARGE_SINGLE_STUDENT:
+      return {
+        ...state,
+        current: action.payload.data[0],
+      };
     case SET_CURRENT:
       return {
         ...state,
@@ -90,6 +114,7 @@ export default (state = initialState, action) => {
     case RECEIVE_PAYMENT_ERROR:
     case CHARGE_SINGLE_STUDENT_ERROR:
     case STUDENTS_INFO_ERROR:
+    case FEES_INFO_ERROR:
       console.error(action.payload);
       return {
         ...state,

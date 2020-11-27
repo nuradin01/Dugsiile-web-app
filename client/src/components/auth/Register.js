@@ -10,7 +10,7 @@ import {registerUser} from '../../actions/userActions'
 
 toast.configure();
 
-const Register = ({registerUser, loadUser, history,userState:{isAuthenticated}}) => {
+const Register = ({registerUser, loadUser, history,userState:{isAuthenticated, error}}) => {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -50,8 +50,29 @@ useEffect(() => {
   if (isAuthenticated) {
     history.push('/school');
   }
+
+  if(error === 'Duplicate field value entered'){
+    toast.error('The email you entered is not availale, Please choose another email.', {
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });    
+  }
+  if(error === 'Path `password` (`123`) is shorter than the minimum allowed length (6).'){
+    toast.error('Your password must contain at least 6 characters', {
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });    
+  }
   // eslint-disable-next-line
-}, [isAuthenticated, history])
+}, [isAuthenticated, history, error])
   return (
     <>
       <div className="form-container sign-up-container">
@@ -109,7 +130,7 @@ useEffect(() => {
             type="password"
             placeholder="Password"
             className="logininput form-control"
-            
+            required
           />
           <input
           name="confirmPassword"
@@ -118,7 +139,7 @@ useEffect(() => {
             type="password"
             placeholder="Confirm password"
             className="logininput form-control"
-          
+          required
           />
           <button id="signUp" className="btn btn-primary btn-lg mt-2" type="submit" >
             Sign Up

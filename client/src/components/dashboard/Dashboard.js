@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
-import {getStudentsInfo} from '../../actions/studentActions'
+import {getStudentsInfo, getFeesInfo} from '../../actions/studentActions'
 
-const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents}, getStudentsInfo}) => {
+const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents, unpaidFees, paidFees}, getStudentsInfo, getFeesInfo}) => {
   useEffect(() => {
     const script11 = document.createElement('script');
     script11.src = 'js/custom/dashboard-charts.js';
@@ -11,6 +11,7 @@ const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents}, g
     document.body.appendChild(script11);
 
     getStudentsInfo()
+    getFeesInfo()
     // eslint-disable-next-line
   }, []);
   return (
@@ -56,10 +57,13 @@ const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents}, g
               <h3> Revenue</h3>
               
               <p>
-                Estimated: <b>$300</b>
+                Estimated: <b>${paidFees + unpaidFees}</b>
               </p>
               <p>
-                In hand: <b>$250</b>
+                In hand: <b>${paidFees}</b>
+              </p>
+              <p>
+                Remaining: <b>${unpaidFees}</b>
               </p>
             </div>
           </div>
@@ -104,4 +108,4 @@ const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents}, g
 const mapStateToProps = (state) => ({
   studentsState: state.studentsState,
 });
-export default connect(mapStateToProps, {getStudentsInfo})(Dashboard);
+export default connect(mapStateToProps, {getStudentsInfo, getFeesInfo})(Dashboard);

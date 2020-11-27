@@ -14,7 +14,9 @@ import {
   CHARGE_SINGLE_STUDENT,
   CHARGE_SINGLE_STUDENT_ERROR,
   STUDENTS_INFO,
-  STUDENTS_INFO_ERROR
+  STUDENTS_INFO_ERROR,
+  FEES_INFO,
+  FEES_INFO_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -37,7 +39,7 @@ export const getStudents = () => async (dispatch) => {
   }
 };
 
-// Get students information
+// Get students information for the dashboard
 export const getStudentsInfo = () => async (dispatch) => {
   try {
     setLoading();
@@ -54,6 +56,28 @@ export const getStudentsInfo = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: STUDENTS_INFO_ERROR,
+      payload: err,
+    });
+  }
+};
+
+// Get fees information for the dashboard
+export const getFeesInfo = () => async (dispatch) => {
+  try {
+    setLoading();
+    const unpaidFees = await axios.get(
+      'http://localhost:5000/api/v1/fees?isPaid=false'
+    );
+    const paidFees = await axios.get(
+      'http://localhost:5000/api/v1/fees?isPaid=true'
+    );
+    dispatch({
+      type: FEES_INFO,
+      payload: {unpaidFees: unpaidFees.data, paidFees: paidFees.data},
+    });
+  } catch (err) {
+    dispatch({
+      type: FEES_INFO_ERROR,
       payload: err,
     });
   }

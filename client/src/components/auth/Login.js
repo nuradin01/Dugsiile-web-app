@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import {connect } from 'react-redux'
 import './auth.css';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {loadUser, login} from '../../actions/userActions'
 
-import {login} from '../../actions/userActions'
-
-const Login = ({login, history, isAuthenticated }) => {
+const Login = ({login, loadUser, history, isAuthenticated, error }) => {
 
 const [loginData, setLoginData] = useState({
   email:'',
@@ -16,6 +17,16 @@ const onChange = (e) =>
 setLoginData({ ...loginData, [e.target.name]: e.target.value });
 
 const onSubmit = (e) => {
+  if (loginData.email==='' || loginData.password === ''){
+    toast.error('Please fill all the fields', {
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
   e.preventDefault()
   login(loginData)
 }
@@ -23,6 +34,16 @@ const onSubmit = (e) => {
 useEffect(() => {
   if (isAuthenticated) {
     history.push('/');
+  }
+  if(error) {
+    toast.error(error, {
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   }
   // eslint-disable-next-line
 }, [isAuthenticated, history])
@@ -103,5 +124,6 @@ Login.propTypes = {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.userState.isAuthenticated,
+  error: state.userState.error,
 })
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, {login, loadUser})(Login);

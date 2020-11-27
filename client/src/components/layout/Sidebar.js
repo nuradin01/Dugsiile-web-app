@@ -31,21 +31,15 @@ const Sidebar = ({ userState: { user }}) => {
                   : user.name.slice(0, 16) + '...'}
               </p>
               <p className="app-sidebar__user-designation">
-                {user.role}
+                {user.school.length <= 16 ? user.school :user.school.slice(0, 16) + '...'}
               </p>
             </div>
           </div>
           <ul className="app-menu">
             <li>
-              <Link className="app-menu__item active" to="/">
+              <Link className="app-menu__item " to="/">
                 <i className="app-menu__icon fa fa-dashboard" />
                 <span className="app-menu__label">Dashboard</span>
-              </Link>
-            </li>
-            <li>
-              <Link className="app-menu__item " to="/school">
-                <i className="app-menu__icon fa fa-university" />
-                <span className="app-menu__label">School</span>
               </Link>
             </li>
             <li>
@@ -54,7 +48,12 @@ const Sidebar = ({ userState: { user }}) => {
                 <span className="app-menu__label">Students</span>
               </Link>
             </li>
-
+            <li>
+              <Link className="app-menu__item " to="/school">
+                <i className="app-menu__icon fa fa-university" />
+                <span className="app-menu__label">School</span>
+              </Link>
+            </li>
             <li>
               <Link className="app-menu__item" to="/user">
                 <i className="app-menu__icon fa fa-user" />
