@@ -46,7 +46,11 @@ const genderOptions = ['Male', 'Female']
     const newStudent = {
       name: studentName, parentName, parentPhone, studentPhone,fee, isScholarship, studentSubjects: studentSubjects.map(subject => subject.value), gender: gender.value
     }
-   
+   if(newStudent.name === '' || newStudent.gender=== undefined){
+    toast.error(`Please don't skip name and gender Fields`, {
+      hideProgressBar: true,
+    });
+   } else {
     addStudent(newStudent);
     setStudent({
       studentName: '',
@@ -60,6 +64,7 @@ const genderOptions = ['Male', 'Female']
     toast.success(`${studentName} was added as a student`, {
       hideProgressBar: true,
     });
+  }
   };
 
   useEffect(() => {
@@ -103,7 +108,7 @@ const genderOptions = ['Male', 'Female']
             <form className="row" onSubmit={onSubmit}>
               <div className="form-group col-md-6">
                 <label className="col-form-label" htmlFor="name">
-                  Name{' '}
+                  Name *{' '}
                 </label>
                 <input
                   className="form-control"
@@ -173,7 +178,7 @@ const genderOptions = ['Male', 'Female']
                 />
               </div>
               <div className="form-group col-md-6">
-                <label className="control-label">Gender</label>
+                <label className="control-label">Gender *</label>
                 <Select
                   theme={customTheme}
                   options={genderOptions.map((gender) => {

@@ -38,7 +38,8 @@ const User = ({ userState: { user, school }, updateUser }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    updateUser({...editUser, gender: gender.value});
+
+    updateUser({...editUser, gender: gender.value ? gender.value : user.gender});
     setShowEditForm(false);
   };
 

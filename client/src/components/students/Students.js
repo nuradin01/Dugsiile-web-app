@@ -8,21 +8,26 @@ import Student from './Student';
 import AddModal from './AddModal';
 import Loader from './Loader';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Students = ({
-  studentsState: { students, loading },
+  studentsState: { students, loading, error },
   userState: {user },
   getStudents,chargeAllPaidStudents
 }) => {
   const {isRegisteredSchool, schoolSubjects} = user
   useEffect(() => {
-    
     getStudents();
 
     // eslint-disable-next-line
   }, []);
-
+if (error) {
+  toast.error(error, {
+    hideProgressBar: true,
+  });
+}
   if (loading) {
     return <Loader />;
   }
