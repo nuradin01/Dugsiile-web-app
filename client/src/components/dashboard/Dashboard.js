@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
-import {getStudentsInfo, getFeesInfo} from '../../actions/studentActions'
+import {getStudentsInfo, getFeesInfo, feesGraph} from '../../actions/studentActions'
+import LineChart from './LineChart';
+import DoughnutChart from './DoughnutChart';
+import PieChart from './PieChart';
 
-const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents, unpaidFees, paidFees}, getStudentsInfo, getFeesInfo}) => {
+const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents, unpaidFees, paidFees}, studentsState, getStudentsInfo, getFeesInfo, feesGraph}) => {
   useEffect(() => {
-    const script11 = document.createElement('script');
-    script11.src = 'js/custom/dashboard-charts.js';
-    script11.async = true;
-    document.body.appendChild(script11);
-
     getStudentsInfo()
     getFeesInfo()
+    feesGraph()
     // eslint-disable-next-line
   }, []);
   return (
@@ -70,34 +69,23 @@ const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents, un
         </div>
       </div>
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-12">
           <div className="tile">
-            <h3 className="tile-title">Paid and Unpaid Fees</h3>
-            <div className="embed-responsive embed-responsive-16by9">
-              <canvas
-                className="embed-responsive-item"
-                id="barChartDemo"
-              ></canvas>
-            </div>
+            <h3 className="tile-title">Fees received last 120 days</h3>
+           
+             <LineChart studentsState={studentsState} />
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-12">
           <div className="tile">
             <h3 className="tile-title">Subjects</h3>
-            <div className="embed-responsive embed-responsive-16by9">
-              <canvas className="embed-responsive-item" id="pieChartDemo" />
-            </div>
+            <DoughnutChart />
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-12">
           <div className="tile">
             <h3 className="tile-title">Demographics </h3>
-            <div className="embed-responsive embed-responsive-16by9">
-              <canvas
-                className="embed-responsive-item"
-                id="doughnutChartDemo"
-              ></canvas>
-            </div>
+            <PieChart />
           </div>
         </div>
       </div>
@@ -108,4 +96,4 @@ const Dashboard = ({studentsState: {studentsTotal, newStudents, leftStudents, un
 const mapStateToProps = (state) => ({
   studentsState: state.studentsState,
 });
-export default connect(mapStateToProps, {getStudentsInfo, getFeesInfo})(Dashboard);
+export default connect(mapStateToProps, {getStudentsInfo, getFeesInfo, feesGraph})(Dashboard);

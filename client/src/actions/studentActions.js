@@ -16,7 +16,9 @@ import {
   STUDENTS_INFO,
   STUDENTS_INFO_ERROR,
   FEES_INFO,
-  FEES_INFO_ERROR
+  FEES_INFO_ERROR,
+  FEES_GRAPH,
+  FEES_GRAPH_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -78,6 +80,42 @@ export const getFeesInfo = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: FEES_INFO_ERROR,
+      payload: err,
+    });
+  }
+};
+
+// Get fees received last 120 days
+export const feesGraph = () => async (dispatch) => {
+  try {
+    setLoading();
+    // fees received 5 months ago
+    const feesOf5MonthsAgo = await axios.get(
+      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (4*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (5*30*24*60*60*1000)}`
+    );
+    // fees received first 30 days of the last 120 days
+    const feesOfFirst30Days = await axios.get(
+      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (3*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (4*30*24*60*60*1000)}`
+    );
+    // fees received second 30 days of the last 120 days
+    const feesOfSecond30Days = await axios.get(
+      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (2*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (3*30*24*60*60*1000)}`
+    );
+    // fees received third 30 days of the last 120 days
+    const feesOfThird30Days = await axios.get(
+      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (2*30*24*60*60*1000)}`
+    );
+    // fees received last 30 days
+    const feesOfLast30Days = await axios.get(
+      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[gt]=${new Date().getTime() - (30*24*60*60*1000)}`
+    );
+    dispatch({
+      type: FEES_GRAPH,
+      payload: {feesOfFirst30Days: feesOfFirst30Days.data, feesOfSecond30Days: feesOfSecond30Days.data, feesOfThird30Days: feesOfThird30Days.data, feesOfLast30Days: feesOfLast30Days.data, feesOf5MonthsAgo: feesOf5MonthsAgo.data},
+    });
+  } catch (err) {
+    dispatch({
+      type: FEES_GRAPH_ERROR,
       payload: err,
     });
   }

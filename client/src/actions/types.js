@@ -27,3 +27,5 @@ export const STUDENTS_INFO = 'STUDENT_INFO';
 export const STUDENTS_INFO_ERROR = 'STUDENTS_INFO_ERROR';
 export const FEES_INFO = 'FEES_INFO';
 export const FEES_INFO_ERROR = 'FEES_INFO_ERROR';
+export const FEES_GRAPH = 'FEES_GRAPH';
+export const FEES_GRAPH_ERROR = 'FEES_GRAPH_ERROR';

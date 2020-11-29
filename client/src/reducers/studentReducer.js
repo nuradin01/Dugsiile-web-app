@@ -17,6 +17,8 @@ import {
   STUDENTS_INFO_ERROR,
   FEES_INFO,
   FEES_INFO_ERROR,
+  FEES_GRAPH,
+  FEES_GRAPH_ERROR
 } from '../actions/types';
 
 const initialState = {
@@ -26,6 +28,11 @@ const initialState = {
   leftStudents: null,
   paidFees: null,
   unpaidFees: null,
+  feesOfFirst30Days: null,
+  feesOfSecond30Days: null,
+  feesOfThird30Days: null,
+  feesOfLast30Days: null,
+  feesOf5MonthsAgo: null,
   current: null,
   loading: false,
   error: null,
@@ -74,6 +81,37 @@ export default (state = initialState, action) => {
           ).reduce((total, paidFee) => total + paidFee.amountPaid, 0),
           loading: false,
         };
+        case FEES_GRAPH:
+          return {
+            ...state,
+            feesOfFirst30Days: action.payload.feesOfFirst30Days.data.reduce(
+              (total, fee) => total + fee.amountPaid,
+              0
+            ),
+            feesOfSecond30Days: action.payload.feesOfSecond30Days.data.reduce(
+              (total, fee) => total + fee.amountPaid,
+              0
+            ),
+            feesOfThird30Days: action.payload.feesOfThird30Days.data.reduce(
+              (total, fee) => total + fee.amountPaid,
+              0
+            ),
+            feesOfLast30Days: action.payload.feesOfLast30Days.data.reduce(
+              (total, fee) => total + fee.amountPaid,
+              0
+            ),
+            feesOf5MonthsAgo: action.payload.feesOf5MonthsAgo.data.reduce(
+              (total, fee) => total + fee.amountPaid,
+              0
+            ),
+            // paidFees: action.payload.paidFees.data.filter((paidFee) =>
+            // new Date(paidFee.paidAt).getTime() >=
+            // new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+            //   ? paidFee
+            //   : 0
+            // ).reduce((total, paidFee) => total + paidFee.amountPaid, 0),
+            loading: false,
+          };
     case DELETE_STUDENT:
       return {
         ...state,
@@ -114,6 +152,7 @@ export default (state = initialState, action) => {
     case CHARGE_SINGLE_STUDENT_ERROR:
     case STUDENTS_INFO_ERROR:
     case FEES_INFO_ERROR:
+    case FEES_GRAPH_ERROR:
       console.error(action.payload);
       return {
         ...state,
