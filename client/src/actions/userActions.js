@@ -91,7 +91,7 @@ export const loadUser = () => async (dispatch) => {
     });
   } catch (err) {
     
-      dispatch({ type: AUTH_ERROR, payload:  err.response.data.error })
+      dispatch({ type: AUTH_ERROR, payload:  err.response === undefined ? err : err.response.data.error })
 
   
   }

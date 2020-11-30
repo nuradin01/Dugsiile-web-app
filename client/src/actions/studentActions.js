@@ -18,7 +18,9 @@ import {
   FEES_INFO,
   FEES_INFO_ERROR,
   FEES_GRAPH,
-  FEES_GRAPH_ERROR
+  FEES_GRAPH_ERROR,
+  GENDER_GRAPH,
+  GENDER_GRAPH_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -116,6 +118,28 @@ export const feesGraph = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: FEES_GRAPH_ERROR,
+      payload: err,
+    });
+  }
+};
+
+// Get students gender for the dashboard
+export const genderGraph = () => async (dispatch) => {
+  try {
+    setLoading();
+    const male = await axios.get(
+      'http://localhost:5000/api/v1/students?isLeft=false&gender=Male'
+    );
+    const female = await axios.get(
+      'http://localhost:5000/api/v1/students?isLeft=false&gender=Female'
+    );
+    dispatch({
+      type: GENDER_GRAPH,
+      payload: {male: male.data, female: female.data},
+    });
+  } catch (err) {
+    dispatch({
+      type: GENDER_GRAPH_ERROR,
       payload: err,
     });
   }

@@ -29,3 +29,5 @@ export const FEES_INFO = 'FEES_INFO';
 export const FEES_INFO_ERROR = 'FEES_INFO_ERROR';
 export const FEES_GRAPH = 'FEES_GRAPH';
 export const FEES_GRAPH_ERROR = 'FEES_GRAPH_ERROR';
+export const GENDER_GRAPH = 'GENDER_GRAPH';
+export const GENDER_GRAPH_ERROR = 'GENDER_GRAPH_ERROR';

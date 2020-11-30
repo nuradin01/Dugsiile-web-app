@@ -18,7 +18,9 @@ import {
   FEES_INFO,
   FEES_INFO_ERROR,
   FEES_GRAPH,
-  FEES_GRAPH_ERROR
+  FEES_GRAPH_ERROR,
+  GENDER_GRAPH,
+  GENDER_GRAPH_ERROR
 } from '../actions/types';
 
 const initialState = {
@@ -33,6 +35,8 @@ const initialState = {
   feesOfThird30Days: null,
   feesOfLast30Days: null,
   feesOf5MonthsAgo: null,
+  maleStudents: null,
+  femaleStudents: null,
   current: null,
   loading: false,
   error: null,
@@ -104,14 +108,16 @@ export default (state = initialState, action) => {
               (total, fee) => total + fee.amountPaid,
               0
             ),
-            // paidFees: action.payload.paidFees.data.filter((paidFee) =>
-            // new Date(paidFee.paidAt).getTime() >=
-            // new Date().getTime() - 30 * 24 * 60 * 60 * 1000
-            //   ? paidFee
-            //   : 0
-            // ).reduce((total, paidFee) => total + paidFee.amountPaid, 0),
             loading: false,
           };
+    case GENDER_GRAPH:
+      return {
+        ...state,
+        maleStudents: action.payload.male.count,
+        femaleStudents: action.payload.female.count,
+      
+        loading: false,
+      };
     case DELETE_STUDENT:
       return {
         ...state,
@@ -153,6 +159,7 @@ export default (state = initialState, action) => {
     case STUDENTS_INFO_ERROR:
     case FEES_INFO_ERROR:
     case FEES_GRAPH_ERROR:
+    case GENDER_GRAPH_ERROR:
       console.error(action.payload);
       return {
         ...state,
