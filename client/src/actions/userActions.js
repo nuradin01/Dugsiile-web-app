@@ -25,7 +25,7 @@ export const registerUser = (signupData) => async (dispatch) => {
   try {
     setLoading();
     const res = await axios.post(
-      'http://localhost:5000/api/v1/auth/register',
+      '/api/v1/auth/register',
       signupData,
       config
     );
@@ -52,7 +52,7 @@ export const login = (loginData) => async (dispatch) => {
   try {
     setLoading();
     const res = await axios.post(
-      'http://localhost:5000/api/v1/auth/login',
+      '/api/v1/auth/login',
       loginData,
       config
     );
@@ -84,7 +84,7 @@ export const loadUser = () => async (dispatch) => {
   }
   try {
     setLoading();
-    const res = await axios.get('http://localhost:5000/api/v1/auth/me');
+    const res = await axios.get('/api/v1/auth/me');
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -115,7 +115,7 @@ export const registerSchool = (school, subjects) => async (dispatch) => {
     setLoading();
 
     const res = await axios.put(
-      'http://localhost:5000/api/v1/auth/registerschool',
+      '/api/v1/auth/registerschool',
       schoolInfo,
       config
     );
@@ -142,7 +142,7 @@ export const updateUser = (user) => async (dispatch) => {
   try {
     setLoading();
     const res = await axios.put(
-      'http://localhost:5000/api/v1/auth/updatedetails',
+      '/api/v1/auth/updatedetails',
       user,
       config
     );

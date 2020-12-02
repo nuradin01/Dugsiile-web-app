@@ -29,7 +29,7 @@ export const getStudents = () => async (dispatch) => {
   try {
     setLoading();
     const res = await axios.get(
-      'http://localhost:5000/api/v1/students?isLeft=false'
+      '/api/v1/students?isLeft=false'
     );
     dispatch({
       type: GET_STUDENTS,
@@ -48,10 +48,10 @@ export const getStudentsInfo = () => async (dispatch) => {
   try {
     setLoading();
     const activeStudents = await axios.get(
-      'http://localhost:5000/api/v1/students?isLeft=false'
+      '/api/v1/students?isLeft=false'
     );
     const leftStudents = await axios.get(
-      'http://localhost:5000/api/v1/students?isLeft=true'
+      '/api/v1/students?isLeft=true'
     );
     dispatch({
       type: STUDENTS_INFO,
@@ -70,10 +70,10 @@ export const getFeesInfo = () => async (dispatch) => {
   try {
     setLoading();
     const unpaidFees = await axios.get(
-      'http://localhost:5000/api/v1/fees?isPaid=false'
+      '/api/v1/fees?isPaid=false'
     );
     const paidFees = await axios.get(
-      'http://localhost:5000/api/v1/fees?isPaid=true'
+      '/api/v1/fees?isPaid=true'
     );
     dispatch({
       type: FEES_INFO,
@@ -93,23 +93,23 @@ export const feesGraph = () => async (dispatch) => {
     setLoading();
     // fees received 5 months ago
     const feesOf5MonthsAgo = await axios.get(
-      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (4*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (5*30*24*60*60*1000)}`
+      `/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (4*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (5*30*24*60*60*1000)}`
     );
     // fees received first 30 days of the last 120 days
     const feesOfFirst30Days = await axios.get(
-      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (3*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (4*30*24*60*60*1000)}`
+      `/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (3*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (4*30*24*60*60*1000)}`
     );
     // fees received second 30 days of the last 120 days
     const feesOfSecond30Days = await axios.get(
-      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (2*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (3*30*24*60*60*1000)}`
+      `/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (2*30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (3*30*24*60*60*1000)}`
     );
     // fees received third 30 days of the last 120 days
     const feesOfThird30Days = await axios.get(
-      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (2*30*24*60*60*1000)}`
+      `/api/v1/fees?isPaid=true&paidAt[lt]=${new Date().getTime() - (30*24*60*60*1000)}&paidAt[gt]=${new Date().getTime() - (2*30*24*60*60*1000)}`
     );
     // fees received last 30 days
     const feesOfLast30Days = await axios.get(
-      `http://localhost:5000/api/v1/fees?isPaid=true&paidAt[gt]=${new Date().getTime() - (30*24*60*60*1000)}`
+      `/api/v1/fees?isPaid=true&paidAt[gt]=${new Date().getTime() - (30*24*60*60*1000)}`
     );
     dispatch({
       type: FEES_GRAPH,
@@ -128,10 +128,10 @@ export const genderGraph = () => async (dispatch) => {
   try {
     setLoading();
     const male = await axios.get(
-      'http://localhost:5000/api/v1/students?isLeft=false&gender=Male'
+      '/api/v1/students?isLeft=false&gender=Male'
     );
     const female = await axios.get(
-      'http://localhost:5000/api/v1/students?isLeft=false&gender=Female'
+      '/api/v1/students?isLeft=false&gender=Female'
     );
     dispatch({
       type: GENDER_GRAPH,
@@ -155,12 +155,12 @@ export const addStudent = (student) => async (dispatch) => {
   try {
     setLoading();
     await axios.post(
-      'http://localhost:5000/api/v1/students',
+      '/api/v1/students',
       student,
       config
     );
     const res = await axios.get(
-      'http://localhost:5000/api/v1/students?isLeft=false'
+      '/api/v1/students?isLeft=false'
     );
     dispatch({
       type: ADD_STUDENT,
@@ -185,7 +185,7 @@ export const deleteStudent = (id) => async (dispatch) => {
   try {
     setLoading();
     const res = await axios.put(
-      `http://localhost:5000/api/v1/students/${id}`,
+      `/api/v1/students/${id}`,
       student,
       config
     );
@@ -211,12 +211,12 @@ export const updateStudent = (student) => async (dispatch) => {
   try {
     setLoading();
     await axios.put(
-      `http://localhost:5000/api/v1/students/${student._id}`,
+      `/api/v1/students/${student._id}`,
       student,
       config
     );
     const res = await axios.get(
-      `http://localhost:5000/api/v1/students?isLeft=false&_id=${student._id}`
+      `/api/v1/students?isLeft=false&_id=${student._id}`
     );
     console.log(res)
     dispatch({
@@ -248,12 +248,12 @@ export const receivePayment = (payment) => async (dispatch) => {
   try {
     setLoading();
     await axios.put(
-      `http://localhost:5000/api/v1/fees/${id}`,
+      `/api/v1/fees/${id}`,
       feeReceived,
       config
     );
     const res = await axios.get(
-      `http://localhost:5000/api/v1/students?isLeft=false&_id=${payment.id}`
+      `/api/v1/students?isLeft=false&_id=${payment.id}`
     );
 
     dispatch({
@@ -277,9 +277,9 @@ export const chargeAllPaidStudents = () => async (dispatch) => {
   };
   try {
     setLoading();
-    await axios.post('http://localhost:5000/api/v1/fees', config);
+    await axios.post('/api/v1/fees', config);
     const res = await axios.get(
-      'http://localhost:5000/api/v1/students?isLeft=false'
+      '/api/v1/students?isLeft=false'
     );
     dispatch({
       type: CHARGE_ALL_PAID_STUDENTS,
@@ -302,9 +302,9 @@ export const chargeStudent = (id) => async (dispatch) => {
   };
   try {
     setLoading();
-    await axios.post(`http://localhost:5000/api/v1/fees/${id}`, config);
+    await axios.post(`/api/v1/fees/${id}`, config);
     const res = await axios.get(
-      `http://localhost:5000/api/v1/students?isLeft=false&_id=${id}`
+      `/api/v1/students?isLeft=false&_id=${id}`
     );
     dispatch({
       type: CHARGE_SINGLE_STUDENT,
