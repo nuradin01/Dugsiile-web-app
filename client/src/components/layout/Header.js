@@ -2,9 +2,17 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import { logout } from '../../actions/userActions';
+import { logout} from '../../actions/userActions';
+import { clearDashboard, clearStudents } from '../../actions/studentActions';
 
-const Header = ({logout}) => {
+const Header = ({logout, clearDashboard, clearStudents }) => {
+
+  const onLogout = () => {
+    logout()
+    clearDashboard()
+    clearStudents()
+  }
+
   return (
     <header className="app-header">
       <a className="app-header__logo" href="#!">
@@ -39,7 +47,7 @@ const Header = ({logout}) => {
               </Link>
             </li>
             <li>
-              <Link className="dropdown-item" to="/login" onClick={logout}>
+              <Link className="dropdown-item" to="/login" onClick={onLogout}>
                 <i className="fa fa-sign-out fa-lg" /> Sign Out
               </Link>
             </li>
@@ -53,4 +61,4 @@ const Header = ({logout}) => {
 Header.propTypes = {
   logout: PropTypes.func.isRequired,
 }
-export default connect (null , {logout})(Header);
+export default connect (null , {logout, clearDashboard, clearStudents })(Header);

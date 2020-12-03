@@ -20,7 +20,9 @@ import {
   FEES_GRAPH,
   FEES_GRAPH_ERROR,
   GENDER_GRAPH,
-  GENDER_GRAPH_ERROR
+  GENDER_GRAPH_ERROR,
+  CLEAR_DASHBOARD,
+  CLEAR_STUDENTS
 } from './types';
 import axios from 'axios';
 
@@ -330,6 +332,18 @@ export const setCurrent = (student) => {
 export const clearCurrent = () => {
   return {
     type: CLEAR_CURRENT,
+  };
+};
+// Clear dashboard 
+export const clearDashboard = () => {
+  return {
+    type: CLEAR_DASHBOARD,
+  };
+};
+// Clear student list
+export const clearStudents = () => {
+  return {
+    type: CLEAR_STUDENTS,
   };
 };
 

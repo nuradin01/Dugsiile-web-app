@@ -20,7 +20,9 @@ import {
   FEES_GRAPH,
   FEES_GRAPH_ERROR,
   GENDER_GRAPH,
-  GENDER_GRAPH_ERROR
+  GENDER_GRAPH_ERROR,
+  CLEAR_DASHBOARD,
+  CLEAR_STUDENTS
 } from '../actions/types';
 
 const initialState = {
@@ -146,6 +148,27 @@ export default (state = initialState, action) => {
       return {
         ...state,
         current: null,
+      };
+    case CLEAR_DASHBOARD:
+      return {
+        ...state,
+        studentsTotal: null,
+        newStudents: null,
+        leftStudents: null,
+        paidFees: null,
+        unpaidFees: null,
+        feesOfFirst30Days: null,
+        feesOfSecond30Days: null,
+        feesOfThird30Days: null,
+        feesOfLast30Days: null,
+        feesOf5MonthsAgo: null,
+        maleStudents: null,
+        femaleStudents: null,
+      };
+    case CLEAR_STUDENTS:
+      return {
+        ...state,
+        students: [],
       };
     case SET_LOADING:
       return {
