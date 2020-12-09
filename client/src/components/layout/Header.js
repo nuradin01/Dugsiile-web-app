@@ -15,9 +15,9 @@ const Header = ({logout, clearDashboard, clearStudents }) => {
 
   return (
     <header className="app-header">
-      <a className="app-header__logo" href="#!">
+      <Link className="app-header__logo" to="/">
         Dugsiile
-      </a>
+      </Link>
       {/* Sidebar toggle button*/}
       <a
         className="app-sidebar__toggle"
