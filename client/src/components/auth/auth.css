@@ -226,3 +226,19 @@ button.ghost {
   height: 40px;
   width: 40px;
 }
+@media (max-width: 637px) {
+  .overlay-container {
+    display: none;
+  }
+  .sign-in-container {
+    width: 100%;
+    left: 0;
+  }
+  .sign-up-container {
+    width: 100%;
+    left: 0;
+  }
+  .loginform {
+    border-bottom: none;
+  }
+}
